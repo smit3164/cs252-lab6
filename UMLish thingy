@@ -35,6 +35,9 @@ class Game {
   class Client {
     //Socket/IP/etc. stuff
   }
+  class Sprite { 
+    //Player sprite, item sprites, etc
+  }
 }
 wakePlayerThread(playerID) {
   //alert player that action is needed
@@ -44,7 +47,12 @@ sendPosition(playerID) {
   //Send position update to all clients and ask for position response
   //Check for collision (fight)
 }
-fight(player_1, player_2, /*fightConditions[]? Maybe later.*/) {}
+draw() {
+  //Draw all visible players and objects
+}
+fight(player_1, player_2, /*fightConditions[]? Maybe later.*/) {
+  //Can do a battle scene or something simpler
+}
 
 
 Items
