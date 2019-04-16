@@ -1,6 +1,6 @@
 Display stuff
 
-class Grid (size[][] /*2D*/){
+class Grid (sizeX, sizeY /*2D*/){
   class Tile(isTraversable, contains /*player, item, trap, etc.*/) {
   }
 }
