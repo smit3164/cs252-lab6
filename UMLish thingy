@@ -1,0 +1,59 @@
+Display stuff
+
+class Grid (size[][] /*2D*/){
+  class Tile(isTraversable, contains /*player, item, trap, etc.*/) {
+  }
+}
+
+
+Players
+
+class Player {
+  int HP;
+  int movePoints;
+  Object inventory[];
+  int score;
+  int playerID; /*or playerNumber*/
+  int stats[];
+}
+
+
+Mechanics
+
+movePos(object /*player, item, monster, etc.*/, direction) {}
+hit(fromObject, toObject, /*hpAmt? depends how dmg is calculated*/, /*dmgType? Up to implementation*/) {}
+heal(fromObject, toObject, hpAmt) {}
+openInventory(playerID) {}
+useItem(playerID) {}
+
+
+Game  //Game loop
+
+class Game {
+  class TurnTimer {
+  }
+  class Client {
+    //Socket/IP/etc. stuff
+  }
+}
+wakePlayerThread(playerID) {
+  //alert player that action is needed
+  //for switching to next player for next turn AND for fights
+}
+sendPosition(playerID) {
+  //Send position update to all clients and ask for position response
+  //Check for collision (fight)
+}
+fight(player_1, player_2, /*fightConditions[]? Maybe later.*/) {}
+
+
+Items
+
+class Item {
+  int type;
+  int range;
+  int hpAmt;  //same for dmg and heal
+  int dmgType;  //heal, dmg, none, typed, etc.
+  
+  //Extra effects
+}
