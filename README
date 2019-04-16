@@ -1,20 +1,13 @@
-Sneaky Strikers/Tesla Data Visualization Project
+Sneaky Strikers Project
 
 Members: Ayush Sinha, Randy Chen, and Wynn Smith
-Emails: ayushvardhansinha@gmail.com, randyzhunc@gmail.com,smit3164@purdue.edu
-
+Emails: ayushvardhansinha@gmail.com, randyzhunc@gmail.com,
+wynnbsmith98@gmail.com
+Purdue Emails: sinha46@purdue.edu, chen2524@purdue.edu, smit3164@purdue.edu
 
 Description:
-
-Tesla Data Visualization
--------------------------
-A web application to look at statistics on your Tesla vehicle. <Add more here>
-
-Sneaky Strikers
-----------------
-A tile-based game where the last person alive wins. The twist - everyone is
-permanently invisible.
-
-
+A tile-based game where the last person alive wins. The twist - everyone is permanently invisible.
+ 
 Technologies Used:
-<Add technologies here>
+JS, React.js, Firebase backend, Heroku to host website
+Github for Git Repository
