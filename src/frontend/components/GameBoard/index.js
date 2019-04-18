@@ -5,7 +5,7 @@ export default class GameBoard extends React.Component {
     return <Cell
     piece = {this.props.squares[i]}
     style = {this.props.squares[i]? this.props.squares[i].style : null}
-    isChar = 0;
+    isChar = {0}
     onClick={() => this.props.onClick(i)}
     />
   }

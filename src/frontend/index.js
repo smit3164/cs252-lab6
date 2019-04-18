@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from '@/components/App'
 
-ReactDOM.render(
-  <GamePage/>,
-  document.getElementById('root')
-);
+
+ReactDOM.render((
+  <div>
+    <App/>
+  </div>
+), document.getElementById('app'));
