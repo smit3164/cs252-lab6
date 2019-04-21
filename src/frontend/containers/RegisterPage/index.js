@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link, Redirect} from 'react-router-dom';
-
+import { Button } from 'semantic-ui-react';
+import { hasAccountToken } from '@/utils';
 import './styles.scss';
 
 export default class Register extends React.Component {
@@ -112,6 +113,12 @@ export default class Register extends React.Component {
   }
 
   render() {
+    if (hasAccountToken()) {
+      return(
+        <Redirect to="/" />
+      );
+    }
+
     return (
       <div class="registerPage">
         <div class="Content">
@@ -127,11 +134,10 @@ export default class Register extends React.Component {
             <p>Email<p id="emailPrompt"></p></p>
             <input type="text" name="emailField" id="emailField"  onChange={(event) => {this.handleEmailChange(event)}} onKeyDown={(e) => this.enterPressedOnEmail()}  placeholder="someone@example.com"></input><br></br>
           </form>
-          <p><button id="signUpButton" class="button" onClick={(e) => this.signUpProcedure()}>Sign Up</button><p id="successParagraph"></p></p>
+          <p><Button id="signUpButton"  onClick={(e) => this.signUpProcedure()}>Sign Up</Button><p id="successParagraph"></p></p>
 
-          <Link to="/login"><button class="button" id="loginButton">Already have an account? Log In</button></Link>
+          <Link to="/login"><Button  id="loginButton">Already have an account? Log In</Button></Link>
         </center>
-        <div class="Footer"></div>
           <div class="Flex">
           </div>
         </div>

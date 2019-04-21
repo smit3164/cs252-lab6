@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link, Redirect} from 'react-router-dom';
-
-
+import { Button } from 'semantic-ui-react';
+import { hasAccountToken } from '@/utils';
 import './styles.scss';
 
 
@@ -47,7 +47,7 @@ export default class Login extends React.Component {
         console.log('Valid regex for password!');
 
         // Connect with backend to verify login information is correct
-       
+        localStorage.setItem('accountToken', username);
         this.props.history.push('/');
         
       } else {
@@ -72,6 +72,12 @@ export default class Login extends React.Component {
   }
 
   render() {
+    if (hasAccountToken()) {
+      return(
+        <Redirect to="/" />
+      );
+    }
+
     return (
       <div class="loginPage">
         <div class="Content">
@@ -84,9 +90,9 @@ export default class Login extends React.Component {
             <p>Password<p id="passwordPrompt"></p></p>
             <input type="password" name="passwordField" id="passwordField" onChange={(event) => {this.handlePasswordChange(event)}} onKeyDown={(e) => this.enterPressedOnPassword()} placeholder="Password"></input>
           </form>
-          <p><button class="button" id="loginButton" onClick={(e) => this.loginProcedure()}>Log In</button><p id="successParagraph"></p></p>
+          <p><Button id="loginButton" onClick={(e) => this.loginProcedure()}>Log In</Button><p id="successParagraph"></p></p>
           <p><Link id="forgotPasswordLink" to="/login/#">Forgot Password?</Link></p>
-          <Link to="/register"><button class="button" id="signUpButton">Don't have an account? Sign Up Here!</button></Link>
+          <Link to="/register"><Button id="signUpButton">Don't have an account? Sign Up Here!</Button></Link>
         </center>
         <div class="Footer">
           <div class="Flex">

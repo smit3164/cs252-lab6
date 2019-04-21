@@ -46,11 +46,14 @@
     "compression-webpack-plugin": "^2.0.0",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
+    "file-loader": "^3.0.1",
     "globals": "^11.11.0",
     "i": "^0.3.6",
     "joi": "^14.3.1",
     "jquery": "^3.4.0",
     "jsonwebtoken": "^8.4.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
     "nodemailer": "^5.1.1",
     "path": "^0.12.7",
     "rand-token": "^0.4.0",
@@ -62,6 +65,8 @@
     "react-router-dom": "^4.3.1",
     "react-table": "^6.9.0",
     "react-toastify": "^4.5.2",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.86.0",
     "tar": "^4.4.8"
   },
   "bugs": {
