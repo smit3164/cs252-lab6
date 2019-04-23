@@ -5,13 +5,14 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var chalk = require('chalk');
 var config = require('./config');
+var admin = require('firebase-admin');
+var serviceAccount = require("./serviceAccountKey.json");
 
-require('dotenv').config();
+admin.initializeApp({
+	credential: admin.credential.cert(serviceAccount),
+	databaseURL: "https://sneaky-strikers.firebaseio.com"
+  });
 
-if (!process.env.JWT_SECRET) {
-	console.log(chalk.red('You are missing a private key. Please add it to your .env under `JWT_SECRET` for authentization to work properly.'));
-	return;
-}
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
 	config = config.prod;
