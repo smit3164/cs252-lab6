@@ -71,7 +71,6 @@ export default class Home extends React.Component {
           <center>
             <h2>Sneaky Strikers</h2>
             <Link to="/login"><Button id="loginButton">Log In</Button></Link>
-            <Link to="/register"><Button id="signUpButton">Register</Button></Link>
             <Link to="/leaderboard"><Button id="leaderboardButton">Leaderboard</Button></Link>
           </center>
           <div class="Flex">

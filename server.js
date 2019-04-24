@@ -7,12 +7,14 @@ var chalk = require('chalk');
 var config = require('./config');
 var admin = require('firebase-admin');
 var serviceAccount = require("./serviceAccountKey.json");
+var firebase = require('firebase');
+var provider = new firebase.auth.GoogleAuthProvider();
+
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
 	databaseURL: "https://sneaky-strikers.firebaseio.com"
   });
-
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
 	config = config.prod;
