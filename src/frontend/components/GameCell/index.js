@@ -28,9 +28,9 @@ export default class Cell extends React.Component {
 
   createCell(){
     if(this.state.activePlayer) {
-      return <Button className="celly" onClick={e => {this.printhi();}} color='blue'>You</Button>;
+      return <Button className="cell" onClick={e => {this.printhi();}} color='blue'>You</Button>;
     }else{
-      return <Button className="cell" onClick={e => {this.printhi();}} color='grey'></Button>;
+      return <Button className="cell" onClick={e => {this.printhi();}} color='grey'> </Button>;
     }
   }
 

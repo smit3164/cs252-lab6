@@ -18,13 +18,12 @@ export default class GameBoard extends React.Component {
       const row = [];
       for(let j = 0; j < 10; j++) {
         let x = (10*i)+j;
-        var p;
-        if(x === this.state.activePlayerPosition) {
+        if(x == this.state.activePlayerPosition) {
           let p = true;
-          row.push(<Cell cellNum={x} activePlayer={p}/>)
+          row.push(<Cell cellNum={x} activePlayer={p} move={move}/>)
         } else {
           let p = false;
-          row.push(<Cell cellNum={x} activePlayer={p}/>)
+          row.push(<Cell cellNum={x} activePlayer={p} move={move}/>)
         }
       }
       board.push(<div className="row">{row}</div>)
@@ -34,6 +33,12 @@ export default class GameBoard extends React.Component {
       {board}
       </div>
     )
+  }
+
+  move = () => {
+    this.setState({
+      activePlayerPosition: 5
+    })
   }
 
   showBoard = () => {
