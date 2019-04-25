@@ -16,7 +16,7 @@ export default class Leaderboard extends React.Component {
         <div class="Content">
         <center>
           <h2>Leaderboard</h2>
-          <Link to="/"><Button id="homeButton">Back to Home Page</Button></Link>
+          <Link to="/"><Button id="homeButton"><Icon name='backward' />Back to Home Page</Button></Link>
 
         </center>
           <div class="Flex">

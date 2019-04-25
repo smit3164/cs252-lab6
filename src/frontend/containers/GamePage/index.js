@@ -44,7 +44,7 @@ export default class Game extends React.Component {
         <div class="Content">
         <center>
           <h2>Game</h2>
-          <Button id="homeButton" onClick={this.openModal}>Back to Home Page</Button>
+          <Button id="homeButton" onClick={this.openModal}><Icon name='backward' />Back to Home Page</Button>
 
 
           <Modal

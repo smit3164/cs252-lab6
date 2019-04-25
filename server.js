@@ -28,7 +28,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Backend API routes
-app.use(require('./src/backend/routes')());
 
 // Serve main.js
 app.get('/public/main.js', (req, res) => {
