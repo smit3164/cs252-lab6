@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Link, Redirect} from 'react-router-dom';
 import { hasAccountToken } from '@/utils';
 import { Button, Modal, Icon } from 'semantic-ui-react';
-
+import GameCell from '../../components/GameCell/index.js';
 import GameBoard from '../../components/GameBoard/index.js';
 
 import './styles.scss';
@@ -107,7 +107,7 @@ export default class Game extends React.Component {
         <center>
           <h2>Game</h2>
           <Button id="homeButton" onClick={this.openModal}>Back to Home Page</Button>
-
+          <GameCell cellNum={5}/>
           <GameBoard />
           <Button id="inventoryButton" onClick={this.showInventory}>Invent</Button>
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from 'semantic-ui-react';
+// import '../styles.css';
 
 export default class Cell extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       occupiedBy: 0,
       cellNum: this.props.cellNum
@@ -20,13 +21,14 @@ export default class Cell extends React.Component {
 
   printhi(){
     console.log("hi");
+    let cellN = this.state.cellNum;
+    console.log({cellN});
   }
 
   render() {
     return (
       <Button className="cell"
-      onClick={e => {this.printhi();}}
-      style={props.style}>
+      onClick={e => {this.printhi();}}>
       </Button>
     );
   }
