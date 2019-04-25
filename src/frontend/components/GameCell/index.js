@@ -10,7 +10,8 @@ export default class Cell extends React.Component {
     this.state = {
       occupiedBy: 0,
       cellNum: this.props.cellNum,
-      activePlayer: this.props.activePlayer
+      activePlayer: this.props.activePlayer,
+      move: this.props.move
     }
   }
 
@@ -23,14 +24,15 @@ export default class Cell extends React.Component {
   printhi(){
     console.log("hi");
     let cellN = this.state.cellNum;
-    console.log({cellN});
+    console.log(cellN);
   }
 
   createCell(){
     if(this.state.activePlayer) {
-      return <Button className="cell" onClick={e => {this.printhi();}} color='blue'>You</Button>;
+      console.log("playaa");
+      return <Button size ="small" className="celly" onClick={this.props.move} color='blue'>You</Button>;
     }else{
-      return <Button className="cell" onClick={e => {this.printhi();}} color='grey'> </Button>;
+      return <Button size ="small" className="cell" onClick={e => {this.printhi();}} color='grey'> </Button>;
     }
   }
 
