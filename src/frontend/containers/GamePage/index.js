@@ -107,9 +107,8 @@ export default class Game extends React.Component {
         <center>
           <h2>Game</h2>
           <Button id="homeButton" onClick={this.openModal}>Back to Home Page</Button>
-          <GameCell cellNum={5}/>
           <GameBoard />
-          <Button id="inventoryButton" onClick={this.showInventory}>Invent</Button>
+          <Button id="inventoryButton" onClick={this.showInventory}>Inventory</Button>
 
           <Modal
                 open={this.state.showHomeModal}
