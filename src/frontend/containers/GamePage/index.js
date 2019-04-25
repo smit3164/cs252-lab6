@@ -108,8 +108,7 @@ export default class Game extends React.Component {
           <Button id="homeButton" onClick={this.openModal}>Back to Home Page</Button>
 
           <GameBoard />
-          <Button id="inventoryButton" /*onClick={playerID.openInventory}*/>Inventory</Button>
-          //<Inventory />
+          <Button id="inventoryButton" /*onClick={playerID.openInventory}*/>Invent</Button>
 
           <Modal
                 open={this.state.showHomeModal}
