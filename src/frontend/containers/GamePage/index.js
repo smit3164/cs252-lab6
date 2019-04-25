@@ -70,6 +70,7 @@ export default class Game extends React.Component {
     this.setState({
       inventoryVisible: true
     })
+    console.log("showInventory");
   }
   hideInventory = () => {
     this.setState({
@@ -108,7 +109,7 @@ export default class Game extends React.Component {
           <Button id="homeButton" onClick={this.openModal}>Back to Home Page</Button>
 
           <GameBoard />
-          <Button id="inventoryButton" /*onClick={playerID.openInventory}*/>Invent</Button>
+          <Button id="inventoryButton" onClick={this.showInventory}>Invent</Button>
 
           <Modal
                 open={this.state.showHomeModal}

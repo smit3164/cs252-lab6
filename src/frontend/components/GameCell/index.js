@@ -18,10 +18,14 @@ export default class Cell extends React.Component {
     })
   }
 
+  printhi(){
+    console.log("hi");
+  }
+
   render() {
     return (
       <Button className="cell"
-      onClick={props.onClick}
+      onClick={e => {this.printhi();}}
       style={props.style}>
       </Button>
     );
