@@ -4,10 +4,11 @@ import Cell from '../GameCell/index.js';
 //TODO: not sure if this is right
 
 export default class GameBoard extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      visible: true
+      visible: true,
+      activePlayerPosition: this.props.activePlayerPosition
     }
   }
 
@@ -16,8 +17,15 @@ export default class GameBoard extends React.Component {
     for(let i = 0; i < 10; i++) {
       const row = [];
       for(let j = 0; j < 10; j++) {
-        var x = i+j;
-        row.push(<Cell cellNum={x} />)
+        let x = (10*i)+j;
+        var p;
+        if(x === this.state.activePlayerPosition) {
+          let p = true;
+          row.push(<Cell cellNum={x} activePlayer={p}/>)
+        } else {
+          let p = false;
+          row.push(<Cell cellNum={x} activePlayer={p}/>)
+        }
       }
       board.push(<div className="row">{row}</div>)
     }
@@ -40,8 +48,6 @@ export default class GameBoard extends React.Component {
   }
 
   render() {
-    //setupBoard
-
     return (
       <div>
       {this.setupBoard()}

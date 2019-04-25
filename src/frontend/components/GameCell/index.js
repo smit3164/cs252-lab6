@@ -9,7 +9,8 @@ export default class Cell extends React.Component {
     super(props);
     this.state = {
       occupiedBy: 0,
-      cellNum: this.props.cellNum
+      cellNum: this.props.cellNum,
+      activePlayer: this.props.activePlayer
     }
   }
 
@@ -27,9 +28,12 @@ export default class Cell extends React.Component {
 
   render() {
     return (
-      <Button className="cell"
-      onClick={e => {this.printhi();}}>
-      </Button>
+      <div>
+        {(this.state.activePlayer) ?
+        (<Button className="cell" onClick={e => {this.printhi();}} color='blue'>You</Button>) :
+        (<Button className="cell" onClick={e => {this.printhi();}} color='grey'></Button>)
+        }
+      </div>
     );
   }
 }
