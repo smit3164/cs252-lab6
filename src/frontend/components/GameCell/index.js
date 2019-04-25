@@ -25,6 +25,7 @@ export default class Cell extends React.Component {
     console.log("hi");
     let cellN = this.state.cellNum;
     console.log(cellN);
+    console.log(this.state.activePlayer);
   }
 
   createCell(){

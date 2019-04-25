@@ -24,7 +24,6 @@ export default class Game extends React.Component {
       //number of seconds per turn
       turnTime: 60,
       inventoryVisible: false,
-      activePlayerPosition: 0
     }
   }
 
@@ -108,7 +107,7 @@ export default class Game extends React.Component {
         <center>
           <h2>Game</h2>
           <Button id="homeButton" onClick={this.openModal}>Back to Home Page</Button>
-          <GameBoard activePlayerPosition={this.state.activePlayerPosition} />
+          <GameBoard id="currentGame" activePlayerPosition={this.state.activePlayerPosition} />
           <Button id="inventoryButton" onClick={this.showInventory}>Inventory</Button>
 
           <Modal
