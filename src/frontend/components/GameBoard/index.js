@@ -24,6 +24,8 @@ export default class GameBoard extends React.Component {
 
   render() {
     //setupBoard
+    var board = [];
+    setupBoard(board);
     return (
       <div>
         {board}

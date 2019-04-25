@@ -46,7 +46,7 @@ export default class Cell extends React.Component {
 
   render() {
     return (
-      <Button className={"cell"}
+      <Button className="cell"
       onClick={props.onClick}
       style={props.style}>
       </Button>
