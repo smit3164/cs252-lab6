@@ -18,6 +18,7 @@ var provider = new firebase.auth.GoogleAuthProvider();
 
 firebase.initializeApp(config);*/
 
+
 export default class Home extends React.Component {
   constructor() {
     super();
@@ -35,6 +36,20 @@ export default class Home extends React.Component {
     this.setState({
       showLogoutModal: false
     })
+  }
+
+  componentDidMount() {
+      this.authChecker = firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          console.log(user);
+        } else {
+          console.log('not logged in');
+        }
+      });
+  }
+
+  componentWillUnmount() {
+    this.authChecker();
   }
 
   loginProcedure = () => {
@@ -62,6 +77,7 @@ export default class Home extends React.Component {
   }
 
   logoutProcedure = () => {
+    firebase.auth().signOut();
     localStorage.removeItem('accountToken');
     this.setState({
       showLogoutModal: false
