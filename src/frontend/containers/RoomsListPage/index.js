@@ -79,7 +79,7 @@ export default class RoomsList extends React.Component {
       let blockPlacement = 0;
 
       if (playerCountInRoom == 1) {
-        blockPlacement = 6
+        blockPlacement = 7
       } else if (playerCountInRoom == 2) {
         blockPlacement = 56;
       } else {
