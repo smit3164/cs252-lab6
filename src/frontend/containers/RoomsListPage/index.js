@@ -77,90 +77,103 @@ export default class RoomsList extends React.Component {
   handleJoinRoomButton(row) {
     console.log('row: ', row);
     console.log('room uid: ', row.original.uid);
+    let uidRoom = row.original.uid;
+    let roomLocation = 'Rooms/' + uidRoom;
     let playerCountInRoom = Number(row.original.playerCount);
     let playerLimit = Number(row.original.playerLimit)
+    let uidPlayer = localStorage.getItem('uid');
+    let playerLocation = roomLocation + '/players/' + uidPlayer;
+    let playersLocations = roomLocation + '/players'; 
+    let alreadyExists = false;
 
 
-    if (playerCountInRoom < playerLimit) {
-      let uidRoom = row.original.uid;
-      let roomLocation = '/Rooms/' + uidRoom;
-      let uidPlayer = localStorage.getItem('uid');
-      let playerLocation = roomLocation + '/players/' + uidPlayer;
-
-      console.log('uidPlayer: ', uidPlayer);
-
-      let blockPlacement = 0;
-
-      if (playerCountInRoom == 1) {
-        blockPlacement = 7
-      } else if (playerCountInRoom == 2) {
-        blockPlacement = 56;
-      } else {
-        blockPlacement = 63
-      }
+    // If the user is already in the room, join without changing properties
+    firebase.database().ref(playersLocations).once('value', snap => {
+      if (!snap.hasChild(uidPlayer)) {
+        if (playerCountInRoom < playerLimit) {
 
 
-      const postDataCount = {
-        playerCount: (playerCountInRoom + 1)
-      }
-      // Update Player Count
-      firebase.database().ref(roomLocation).update(postDataCount);
-
-      const postDataPlayer = {
-        uid: uidPlayer,
-        blockNum: blockPlacement,
-        isAlive: true,
-        isTurn: false,
-        kills: 0,
-        enterOrder: playerCountInRoom
-      }
-
-      // Add player to the Players in Room
-      firebase.database().ref(playerLocation).set(postDataPlayer);
-
-
-      // Check if game should start
-      if (playerCountInRoom + 1 >= playerLimit) {
-        let i = 0;
-        const postPlayerInBlock = {
-          playerInBlock: ''
-        }
-
-        const postUpdatePlayingBool = {
-          isPlaying: true
-        }
-
-        // Create the map
-        for (i = 0; i < 64; i++) {
-            let mapLocation = roomLocation + '/Map/block' + i;
-            firebase.database().ref(mapLocation).set(postPlayerInBlock);
-        }
-
-        // Update blockNum in map
-        let playersLocations = roomLocation + '/players'; 
-        firebase.database().ref(playersLocations).once('value', snap => {
-          snap.forEach(snapChild => {
-            let someUID = snapChild.child('uid').val();
-            let someBlockNum = roomLocation + '/Map/block' + snapChild.child('blockNum').val();
-            
-            const updateBlock = {
-              playerInBlock: someUID
+          console.log('uidPlayer: ', uidPlayer);
+    
+          let blockPlacement = 0;
+    
+          if (playerCountInRoom == 1) {
+            blockPlacement = 7
+          } else if (playerCountInRoom == 2) {
+            blockPlacement = 56;
+          } else {
+            blockPlacement = 63
+          }
+    
+    
+          const postDataCount = {
+            playerCount: (playerCountInRoom + 1)
+          }
+          // Update Player Count
+          firebase.database().ref(roomLocation).update(postDataCount);
+    
+          const postDataPlayer = {
+            uid: uidPlayer,
+            blockNum: blockPlacement,
+            isAlive: true,
+            isTurn: false,
+            kills: 0,
+            enterOrder: playerCountInRoom
+          }
+    
+          // Add player to the Players in Room
+          firebase.database().ref(playerLocation).set(postDataPlayer);
+    
+    
+          // Check if game should start
+          if (playerCountInRoom + 1 >= playerLimit) {
+            let i = 0;
+            const postPlayerInBlock = {
+              playerInBlock: ''
             }
-            firebase.database().ref(someBlockNum).update(updateBlock);
-
-
-
-          });
-        });
-        // Start the game
-        firebase.database().ref(roomLocation).update(postUpdatePlayingBool);
+    
+            const postUpdatePlayingBool = {
+              isPlaying: true
+            }
+    
+            // Create the map
+            for (i = 0; i < 64; i++) {
+                let mapLocation = roomLocation + '/Map/block' + i;
+                firebase.database().ref(mapLocation).set(postPlayerInBlock);
+            }
+    
+            // Update blockNum in map
+            firebase.database().ref(playersLocations).once('value', snap => {
+              snap.forEach(snapChild => {
+                let someUID = snapChild.child('uid').val();
+                let someBlockNum = roomLocation + '/Map/block' + snapChild.child('blockNum').val();
+                
+                const updateBlock = {
+                  playerInBlock: someUID
+                }
+                firebase.database().ref(someBlockNum).update(updateBlock);
+    
+    
+    
+              });
+            });
+            // Start the game
+            firebase.database().ref(roomLocation).update(postUpdatePlayingBool);
+          }
+          let url = '/game/' + uidRoom;
+          this.props.history.push(url);
+          
+          
+    
+        }
+        
+      } else {
+        let url = '/game/' + uidRoom;
+        this.props.history.push(url);
       }
-      let url = '/game/' + uidRoom;
-      this.props.history.push(url);
-      
-      
+    });
 
-    }
+    
 
   }
 
