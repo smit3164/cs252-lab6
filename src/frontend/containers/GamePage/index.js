@@ -8,6 +8,7 @@ import GameBoard from '../../components/GameBoard/index.js';
 
 import './styles.scss';
 
+//localStorage.getItem('user') for UIDs
 var playerArray = ["A", "B", "C", "D"];
 var lastPosArray = [null, null, null, null];
 
@@ -102,8 +103,9 @@ export default class Game extends React.Component {
     let newBoard = this.state.board
     console.log(index);
     newBoard[index] = playerArray[this.state.activePlayer];
-    (lastPosArray[this.state.activePlayer] != null) ? (newBoard[lastPosArray[this.state.activePlayer]] = null)
-      : ( console.log("Turn 1") )
+    (lastPosArray[this.state.activePlayer] != null && lastPosArray[this.state.activePlayer] != index) ?
+      (newBoard[lastPosArray[this.state.activePlayer]] = null) :
+      ( console.log("garbage blah blah") )
     lastPosArray[this.state.activePlayer] = index;
     let newActivePlayer = (this.state.activePlayer+1) % 4;
 
@@ -142,7 +144,8 @@ export default class Game extends React.Component {
           </div>
 
           <p>activePlayerPosition: {this.state.activePlayerPosition}</p>
-          <p>activePlayer: {this.state.activePlayer}</p>
+          <p>activePlayer: {this.state.activePlayer}, {playerArray[this.state.activePlayer]}</p>
+          <p>lastPosArray[{this.state.activePlayer}]: {lastPosArray[this.state.activePlayer]}</p>
 
           <Modal
                 open={this.state.showHomeModal}
