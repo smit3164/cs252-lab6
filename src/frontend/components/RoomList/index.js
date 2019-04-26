@@ -28,6 +28,11 @@ export default class RoomList extends React.Component {
     });
 
   }
+
+  handleJoinRoomButton(row) {
+
+  }
+
   componentWillUnmount() {
     //this.update.off();
   }
@@ -45,6 +50,27 @@ export default class RoomList extends React.Component {
         {
           Header: "Max Players",
           accessor: "playerLimit"
+        },
+        {
+          Header: "",
+          id: "joinRoom",
+          aggregate: vals => {
+
+          },
+          Cell: row => {
+            if (!row.original) {
+                return (
+                  <Button positive onClick={() => this.handleJoinRoomButton(row)}>Join Room</Button>
+                );
+            }
+            return(
+              <label />
+            );
+          },
+          sortable: false,
+        filterable: false,
+        resizable: false,
+        width: 120
         }
       ]
         return (
