@@ -153,9 +153,8 @@ export default class Game extends React.Component {
         <div className="Content">
         <center>
           <h2>Game</h2>
-          <Button id="homeButton" onClick={this.openModal}>Back to Home Page</Button>
-          <Button id="inventoryButton" onClick={this.showInventory}>Inventory</Button>
-
+          <Button id="homeButton" onClick={this.openModal}><Icon name='arrow left' />Back to Home Page</Button>
+          
           <div className="container">
             <div className="board">
               {Board}
@@ -193,6 +192,6 @@ export default class Game extends React.Component {
     );
   }
 };
-
+//<Button id="inventoryButton" onClick={this.showInventory}>Inventory</Button>
 //<GameBoard id="currentGame" activePlayerPosition={this.state.activePlayerPosition} />
 // legacy GameBoard component

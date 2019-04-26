@@ -23,7 +23,8 @@ export default class Home extends React.Component {
   constructor() {
     super();
     this.state = {
-      showLogoutModal: false
+      showLogoutModal: false,
+      loggedIn: false
     }
   }
 
@@ -39,11 +40,18 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
+    let self = this;
     this.authChecker = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         console.log(user);
+        self.setState( {
+          loggedIn: true
+        });
       } else {
         console.log('not logged in');
+        self.setState( {
+          loggedIn: false
+        });
       }
     });
   }
@@ -83,38 +91,14 @@ export default class Home extends React.Component {
           }).then((data) => {
             //success callback
             console.log('data ', data);
-            self.props.history.push("/");
 
           }).catch((error) => {
             //error callback
             console.log('error ', error);
-            self.props.history.push("/");
           });
-        } else {
-          self.props.history.push("/");
-
         }
       });
 
-
-
-
-/*
-      const rootRef = firebase.database().ref().child('sneaky-strikers');
-      const listOfPlayersRef = rootRef.child('PlayerInfo').child('listOfPlayers');
-      const playerRef = listOfPlayersRef.child(user.uid);
-
-      playerRef.
-      playerRef.on('value', snap => {
-          hasPlayer = snap.val();
-          console.log('hasPlayer has changed!');
-          console.log(hasPlayer);
-
-      });
-      console.log('hasPlayer is: ');
-      console.log(hasPlayer);
-*/
-      // ...
     }).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;
@@ -130,10 +114,10 @@ export default class Home extends React.Component {
 logoutProcedure = () => {
   firebase.auth().signOut();
   localStorage.removeItem('accountToken');
+  localStorage.removeItem('user');
   this.setState({
     showLogoutModal: false
   });
-  this.props.history.push("/");
 }
 
 render() {
