@@ -15,8 +15,8 @@ var lastPosArray = [0, 7, 56, 63];
 
 
 export default class Game extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     let newBoard = Array(64).fill("");
     newBoard[0] = "A"
     newBoard[7] = "B"
@@ -26,7 +26,7 @@ export default class Game extends React.Component {
     this.state = {
       showHomeModal: false,
       //get gameID from database or generate new if no acceptable games exist
-      gameID: 12345,
+      gameID: "someRandomRoomUID",
       playerTable: null,
       playerCount: 0,
       aliveCount: 0,
@@ -44,10 +44,13 @@ export default class Game extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({
+      gameID: this.props.match.params.gameID
+    })
     let self = this;
     let currData = [];
 
-    firebase.database().ref("Rooms/someRandomRoomUID/players").once('value', snap => {
+    firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', snap => {
       snap.forEach(snapChild => {
         currData.push(snapChild.toJSON());
       });
