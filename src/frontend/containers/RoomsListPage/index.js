@@ -118,7 +118,8 @@ export default class RoomsList extends React.Component {
             isAlive: true,
             isTurn: false,
             kills: 0,
-            enterOrder: playerCountInRoom
+            enterOrder: playerCountInRoom,
+            weaponType: -1
           }
     
           // Add player to the Players in Room
@@ -207,7 +208,8 @@ export default class RoomsList extends React.Component {
         isAlive: true,
         isTurn: true,
         kills: 0,
-        enterOrder: 0
+        enterOrder: 0,
+        weaponType: -1
       }
 
       // Add player to the Players in Room
