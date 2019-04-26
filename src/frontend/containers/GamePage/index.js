@@ -109,10 +109,11 @@ export default class Game extends React.Component {
   }
 
   movePossible(src, dest) {
-    return ((src - 1 === dest) ||
-      (src + 1 === dest) ||
-      (src - 8 === dest) ||
-      (src + 8 === dest))
+    // (src%8!=0&&src%8!=7)
+    return (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
+      ((src + 1 === dest) && (src%8!=7 && dest%8!=0)) ||
+      (src + 8 === dest) ||
+      (src - 8 === dest))
     }
 
   onClick(index) {
@@ -192,7 +193,7 @@ export default class Game extends React.Component {
           <p>activePlayerPosition: {this.state.activePlayerPosition}</p>
           <p>activePlayer: {this.state.activePlayer}, {playerArray[this.state.activePlayer]}</p>
           <p>lastPosArray[{this.state.activePlayer}]: {lastPosArray[this.state.activePlayer]}</p>
-
+          <p>Number Of Turns Remaining: {this.state.turnCount}</p>
           <Modal
                 open={this.state.showHomeModal}
                 onClose={this.closeModal}
