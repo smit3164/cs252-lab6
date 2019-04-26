@@ -195,6 +195,7 @@ export default class RoomsList extends React.Component {
       const postDataCount = {
         playerCount: 1,
         playerLimit: 4,
+        activePlayer: 0,
         isPlaying: false,
         nameOfRoom: roomName,
         uid: uidRoom
