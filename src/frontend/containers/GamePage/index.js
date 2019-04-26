@@ -189,7 +189,9 @@ export default class Game extends React.Component {
   movePossible(src, dest) {
 
     // (src%8!=0&&src%8!=7)
-    return (this.state.fbPlayerList.length == 4) && (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) && (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
+    return (this.state.isPlaying) &&
+      (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) &&
+      (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
       ((src + 1 === dest) && (src%8!=7 && dest%8!=0)) ||
       (src + 8 === dest) ||
       (src - 8 === dest))
