@@ -27,6 +27,8 @@ export default class Game extends React.Component {
       showHomeModal: false,
       //get gameID from database or generate new if no acceptable games exist
       gameID: "someRandomRoomUID",
+      gameList: [],
+      isPlaying: false,
       playerTable: null,
       playerCount: 0,
       aliveCount: 0,
@@ -36,7 +38,7 @@ export default class Game extends React.Component {
       //number of seconds per turn
       turnCount:3,
       activePlayerPosition: 0,
-      turnTime: 60,
+      //turnTime: 60,
       inventoryVisible: false,
       board: newBoard,
       fbPlayerList: [],
@@ -51,7 +53,7 @@ export default class Game extends React.Component {
     let self = this;
     let currData = [];
 
-    firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', snap => {
+    firebase.database().ref("Rooms/"+this.state.gameID+"/players").on('value', snap => {
       snap.forEach(snapChild => {
         currData.push(snapChild.toJSON());
       });
@@ -71,6 +73,16 @@ export default class Game extends React.Component {
       })
     });
 
+    firebase.database().ref("Rooms/"+this.state.gameID).on('value', snap => {
+      snap.forEach(snapChile => {
+        currdata.push(snapChild.toJSON());
+      });
+
+      this.setState({
+        isPlaying: currData[0].isPlaying,
+        playerCount: currData[0].playerCount
+      })
+    })
   }
 
   /*updateTurnTime = (reset) => {
@@ -85,6 +97,11 @@ export default class Game extends React.Component {
       })
     }
   }*/
+
+  sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
   updateAliveCount = (death) => {
     if(death) {
       this.setState({
@@ -147,11 +164,34 @@ export default class Game extends React.Component {
     });
     //move to playerTable[i+1]
   }
-
+  fightOpponent(p1w, p2w){
+    if((p1w == 2 && p2w == 1) || (p1w == 3 && p2w == 2) || (p1w == 1 && p2w == 3)){
+      //p1 won
+      return 1;
+    }
+    if((p1w == 1 && p2w == 2) || (p1w == 2 && p2w == 3) || (p1w == 3 && p2w == 1)){
+      //p2 won
+      return 2;
+    }
+    if((p1w == 1 && p2w == 1) || (p1w == 2 && p2w == 2) || (p1w == 3 && p2w == 3)){
+      //both die
+      return 3;
+    }
+  }
+  handleChangePlayer(curr){
+    /*
+    send to fb change active players
+    (optional) flash player the entire board
+    make this player wait until their turn
+    */
+    return (curr+1) % 4;
+  }
   movePossible(src, dest) {
 
     // (src%8!=0&&src%8!=7)
-    return (this.state.fbPlayerList.length == 4) && (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) && (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
+    return (this.state.isPlaying) &&
+      (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) &&
+      (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
       ((src + 1 === dest) && (src%8!=7 && dest%8!=0)) ||
       (src + 8 === dest) ||
       (src - 8 === dest))
@@ -161,7 +201,10 @@ export default class Game extends React.Component {
     console.log(index);
     //************************************************
     //console.log("test: ", this.state.fbPlayerList[0].blockNum)
-    console.log("test: ", this.state.playerArray[0].blockNum)
+    console.log("playerArray[0].isAlive: ", this.state.playerArray[0].isAlive)
+    if(this.state.playerArray[1] != null) {
+      console.log("playerArray[1].isAlive: ", this.state.playerArray[1].isAlive)
+    }
     if(this.movePossible(lastPosArray[this.state.activePlayer], index)) {
       for(let i = 0; i < 4; i++) {
         if(index != lastPosArray[this.state.activePlayer] && index == lastPosArray[i]) {
@@ -185,8 +228,8 @@ export default class Game extends React.Component {
         tc = 1;
       } else if(this.state.turnCount == 1) {
         let curr = this.state.activePlayer;
-        // let playa = handleChangePlayer(curr);
-        newActivePlayer = (this.state.activePlayer+1) % 4;
+        // let playa
+        newActivePlayer = handleChangePlayer(curr);
         tc = 3;
       } else if(this.state.turnCount == 0) {
         console.log("not right turn num left");
@@ -208,6 +251,11 @@ export default class Game extends React.Component {
   }
 
   render() {
+    //Wait for game to start
+    /*while(!this.state.isPlaying) {
+      console.log("Waiting for players ("+this.state.playerCount+"/4)")
+    }*/
+
     if (!hasAccountToken()) {
       return(
         <Redirect to="/" />
