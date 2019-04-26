@@ -199,7 +199,7 @@ export default class RoomsList extends React.Component {
 
       // Add player to the Players in Room
       firebase.database().ref(playerLocation).set(postDataPlayer);
-      
+
       this.closeModal();
 
       let url = '/game/' + uidRoom;
@@ -262,7 +262,7 @@ render() {
           <center>
             <h2>Rooms</h2>
             <Button id="homeButton" onClick={this.openHomeModal}><Icon name='arrow left' />Back to Home Page</Button>
-            <Button id="createButton" onClick={this.openRoomModal}><Icon name='arrow left' />Create New Room</Button>
+            <Button id="createButton" onClick={this.openRoomModal}><Icon name='user plus' />Create New Room</Button>
             <br /><br />
             <div className="table">
               
