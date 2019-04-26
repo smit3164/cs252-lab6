@@ -6,15 +6,20 @@ var bodyParser = require('body-parser');
 var chalk = require('chalk');
 var config = require('./config');
 var admin = require('firebase-admin');
-var serviceAccount = require("./serviceAccountKey.json");
 var firebase = require('firebase');
 var provider = new firebase.auth.GoogleAuthProvider();
+
+if (!process.env.FIREBASE_CONFIG) {
+var serviceAccount = require("./serviceAccountKey.json");
 
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
 	databaseURL: "https://sneaky-strikers.firebaseio.com"
   });
+} else {
+	admin.initializeApp();
+}
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
 	config = config.prod;
