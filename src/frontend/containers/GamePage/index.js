@@ -8,6 +8,8 @@ import GameBoard from '../../components/GameBoard/index.js';
 
 import './styles.scss';
 
+var playerArray = ["A", "B", "C", "D"];
+var lastPosArray = [null, null, null, null];
 
 export default class Game extends React.Component {
   constructor() {
@@ -20,12 +22,15 @@ export default class Game extends React.Component {
       playerCount: 0,
       aliveCount: 0,
       //get playerTable from database given gameID
-      activePlayer: /*playerTable[0]*/null,
+      activePlayer: 0,
       //number of seconds per turn
+      activePlayerPosition: 0,
       turnTime: 60,
       inventoryVisible: false,
+      board: Array(9).fill(null)
     }
   }
+
 
   updateTurnTime = (reset) => {
     if(reset) {
@@ -93,6 +98,21 @@ export default class Game extends React.Component {
     this.props.history.push("/");
   }
 
+  onClick(index) {
+    let newBoard = this.state.board
+    console.log(index);
+    newBoard[index] = playerArray[this.state.activePlayer];
+    (lastPosArray[this.state.activePlayer] != null) ? (newBoard[lastPosArray[this.state.activePlayer]] = null)
+      : ( console.log("Turn 1") )
+    lastPosArray[this.state.activePlayer] = index;
+    let newActivePlayer = (this.state.activePlayer+1) % 4;
+
+    this.setState({
+      board: newBoard,
+      activePlayerPosition: index,
+      activePlayer: newActivePlayer
+    })
+  }
 
   render() {
     if (!hasAccountToken()) {
@@ -101,14 +121,28 @@ export default class Game extends React.Component {
       );
     }
 
+    const Board = this.state.board.map(
+      (box, index) => <div className="box"
+      onClick={() => this.onClick(index)} key={index}>
+      {box}
+      </div>)
+
     return (
       <div class="gamePage">
         <div class="Content">
         <center>
           <h2>Game</h2>
           <Button id="homeButton" onClick={this.openModal}>Back to Home Page</Button>
-          <GameBoard id="currentGame" activePlayerPosition={this.state.activePlayerPosition} />
           <Button id="inventoryButton" onClick={this.showInventory}>Inventory</Button>
+
+          <div className="container">
+            <div className="board">
+              {Board}
+            </div>
+          </div>
+
+          <p>activePlayerPosition: {this.state.activePlayerPosition}</p>
+          <p>activePlayer: {this.state.activePlayer}</p>
 
           <Modal
                 open={this.state.showHomeModal}
@@ -137,3 +171,6 @@ export default class Game extends React.Component {
     );
   }
 };
+
+//<GameBoard id="currentGame" activePlayerPosition={this.state.activePlayerPosition} />
+// legacy GameBoard component

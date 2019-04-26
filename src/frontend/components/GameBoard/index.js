@@ -17,6 +17,7 @@ export default class GameBoard extends React.Component {
     this.setState({
       activePlayerPosition: 10
     });
+    //this.render();
     console.log("finish move");
   }
 
