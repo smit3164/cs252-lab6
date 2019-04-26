@@ -3,12 +3,13 @@ export default class Player {
     this.player = player;
   }
 
-  isMovePossible(srci, srcj, desti, destj){
-    return ((srci - 1 === desti && srcj === destj) ||
-      (srci + 1 === desti && srcj === destj) ||
-      (srcj - 1 === destj && srci === desti) ||
-      (srcj + 1 === destj && srci === desti));
-  }
+  /*isMovePossible(src, dest){
+    return ((src - 1 === dest) ||
+      (src + 1 === dest) ||
+      (src - 8 === dest) ||
+      (src + 8 === dest);
+  }*/
+  //Already in GamePage as 'movePossible'
 
   /**
    * always returns empty array because of one step

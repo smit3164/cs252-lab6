@@ -10,7 +10,7 @@ import './styles.scss';
 
 //localStorage.getItem('user') for UIDs
 var playerArray = ["A", "B", "C", "D"];
-var lastPosArray = [null, null, null, null];
+var lastPosArray = [0, 7, 56, 63];
 
 export default class Game extends React.Component {
   constructor() {
@@ -30,6 +30,14 @@ export default class Game extends React.Component {
       inventoryVisible: false,
       board: Array(64).fill(null)
     }
+    let newBoard = this.state.board;
+    newBoard[0] = "A"
+    newBoard[7] = "B"
+    newBoard[56] = "C"
+    newBoard[63] = "D"
+    this.setState({
+      board: newBoard
+    })
   }
 
 
@@ -99,21 +107,32 @@ export default class Game extends React.Component {
     this.props.history.push("/");
   }
 
-  onClick(index) {
-    let newBoard = this.state.board
-    console.log(index);
-    newBoard[index] = playerArray[this.state.activePlayer];
-    (lastPosArray[this.state.activePlayer] != null && lastPosArray[this.state.activePlayer] != index) ?
-      (newBoard[lastPosArray[this.state.activePlayer]] = null) :
-      ( console.log("garbage blah blah") )
-    lastPosArray[this.state.activePlayer] = index;
-    let newActivePlayer = (this.state.activePlayer+1) % 4;
+  movePossible(src, dest) {
+    return ((src - 1 === dest) ||
+      (src + 1 === dest) ||
+      (src - 8 === dest) ||
+      (src + 8 === dest))
+    }
 
-    this.setState({
-      board: newBoard,
-      activePlayerPosition: index,
-      activePlayer: newActivePlayer
-    })
+  onClick(index) {
+    console.log(index);
+    if(this.movePossible(lastPosArray[this.state.activePlayer], index)) {
+      let newBoard = this.state.board
+      newBoard[index] = playerArray[this.state.activePlayer];
+      (lastPosArray[this.state.activePlayer] != null && lastPosArray[this.state.activePlayer] != index) ?
+        (newBoard[lastPosArray[this.state.activePlayer]] = null) :
+        ( console.log("garbage blah blah") )
+      lastPosArray[this.state.activePlayer] = index;
+      let newActivePlayer = (this.state.activePlayer+1) % 4;
+
+      this.setState({
+        board: newBoard,
+        activePlayerPosition: index,
+        activePlayer: newActivePlayer
+      })
+    } else {
+      console.log("Not a legal move.")
+    }
   }
 
   render() {
