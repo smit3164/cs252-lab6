@@ -128,7 +128,7 @@ export default class RoomsList extends React.Component {
         firebase.database().ref(playersLocations).once('value', snap => {
           snap.forEach(snapChild => {
             let someUID = snapChild.child('uid').val();
-            let someBlockNum = roomLocaton + '/Map/block' + snapChild.child('blockNum').val();
+            let someBlockNum = roomLocation + '/Map/block' + snapChild.child('blockNum').val();
             
             const updateBlock = {
               playerInBlock: someUID
