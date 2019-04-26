@@ -28,7 +28,7 @@ export default class Game extends React.Component {
       activePlayerPosition: 0,
       turnTime: 60,
       inventoryVisible: false,
-      board: Array(9).fill(null)
+      board: Array(64).fill(null)
     }
   }
 
@@ -130,8 +130,8 @@ export default class Game extends React.Component {
       </div>)
 
     return (
-      <div class="gamePage">
-        <div class="Content">
+      <div className="gamePage">
+        <div className="Content">
         <center>
           <h2>Game</h2>
           <Button id="homeButton" onClick={this.openModal}>Back to Home Page</Button>
@@ -166,7 +166,7 @@ export default class Game extends React.Component {
                 </Modal.Actions>
               </Modal>
         </center>
-          <div class="Flex">
+          <div className="Flex">
           </div>
 
         </div>

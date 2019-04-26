@@ -98,7 +98,7 @@ export default class Home extends React.Component {
 
 
 
-    
+
 /*
       const rootRef = firebase.database().ref().child('sneaky-strikers');
       const listOfPlayersRef = rootRef.child('PlayerInfo').child('listOfPlayers');
@@ -139,8 +139,8 @@ logoutProcedure = () => {
 render() {
   if (hasAccountToken()) {
     return (
-      <div class="homePage">
-        <div class="Content">
+      <div className="homePage">
+        <div className="Content">
           <center>
             <h2>Sneaky Strikers</h2>
             <Link to="/game"><Button id="startButton"><Icon name='game' />Start a game</Button></Link>
@@ -166,21 +166,21 @@ render() {
               </Modal.Actions>
             </Modal>
           </center>
-          <div class="Flex">
+          <div className="Flex">
           </div>
         </div>
       </div>
     );
   }
   return (
-    <div class="homePage">
-      <div class="Content">
+    <div className="homePage">
+      <div className="Content">
         <center>
           <h2>Sneaky Strikers</h2>
           <Button id="loginButton" onClick={this.loginProcedure}><Icon name='google' />Log In with Google</Button>
           <Link to="/leaderboard"><Button id="leaderboardButton"><Icon name='chess king' />Leaderboard</Button></Link>
         </center>
-        <div class="Flex">
+        <div className="Flex">
         </div>
       </div>
     </div>
