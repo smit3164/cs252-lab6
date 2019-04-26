@@ -8,18 +8,18 @@ import './styles.scss';
 
 
 export default class Leaderboard extends React.Component {
- 
+
   render() {
 
     return (
-      <div class="leaderboardPage">
-        <div class="Content">
+      <div className="leaderboardPage">
+        <div className="Content">
         <center>
           <h2>Leaderboard</h2>
           <Link to="/"><Button id="homeButton"><Icon name='backward' />Back to Home Page</Button></Link>
 
         </center>
-          <div class="Flex">
+          <div className="Flex">
           </div>
 
         </div>

@@ -1,28 +1,66 @@
 import React from 'react';
 import Cell from '../GameCell/index.js';
+//import setupBoard from './setupBoard';
+//TODO: not sure if this is right
+
 export default class GameBoard extends React.Component {
-  renderSquare(i) {
-    return <Cell
-    piece = {this.props.squares[i]}
-    style = {this.props.squares[i]? this.props.squares[i].style : null}
-    isChar = {0}
-    onClick={() => this.props.onClick(i)}
-    />
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: true,
+      activePlayerPosition: 0
+    }
+  }
+
+  move = () => {
+    console.log("move")
+    this.setState({
+      activePlayerPosition: 10
+    });
+    console.log("finish move");
+  }
+
+  setupBoard() {
+    console.log(this.state.activePlayerPosition);
+    console.log("jello");
+    var board = [];
+    for(let i = 0; i < 10; i++) {
+      const row = [];
+      for(let j = 0; j < 10; j++) {
+        let x = (10*i)+j;
+        if(x == this.state.activePlayerPosition) {
+          console.log("gddgh");
+          let p = true;
+          row.push(<Cell cellNum={x} activePlayer={p} move={this.move}/>)
+        } else {
+          let p = false;
+          row.push(<Cell cellNum={x} activePlayer={p} move={this.move}/>)
+        }
+      }
+      board.push(<div className="row">{row}</div>)
+    }
+    return (
+      <div>
+      {board}
+      </div>
+    )
+  }
+
+  showBoard = () => {
+    this.setState({
+      visible: true
+    })
+  }
+  hideBoard = () => {
+    this.setState({
+      visible: false
+    })
   }
 
   render() {
-    const board = [];
-    for(let i = 0; i < 10; i++){
-      const squareRows = [];
-      for(let j = 0; j < 10; j++){
-        squareRows.push(this.renderSquare((i*10) + j));
-      }
-      board.push(<div className="board">{squareRows}</div>)
-    }
-
     return (
       <div>
-        {board}
+      {this.setupBoard()}
       </div>
     );
   }

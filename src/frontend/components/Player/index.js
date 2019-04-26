@@ -3,15 +3,11 @@ export default class Player {
     this.player = player;
   }
 
-  isMovePossible(src, dest){
-    return (src - 11 === dest ||
-      src - 10 === dest || 
-      src - 9 === dest ||
-      src + 1 === dest ||
-      src + 11 === dest ||
-      src + 10 === dest ||
-      src + 9 === dest ||
-      src - 1 === dest);
+  isMovePossible(srci, srcj, desti, destj){
+    return ((srci - 1 === desti && srcj === destj) ||
+      (srci + 1 === desti && srcj === destj) ||
+      (srcj - 1 === destj && srci === desti) ||
+      (srcj + 1 === destj && srci === desti));
   }
 
   /**
