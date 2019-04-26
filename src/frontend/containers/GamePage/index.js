@@ -15,6 +15,12 @@ var lastPosArray = [0, 7, 56, 63];
 export default class Game extends React.Component {
   constructor() {
     super();
+    let newBoard = Array(64).fill("");
+    newBoard[0] = "A"
+    newBoard[7] = "B"
+    newBoard[56] = "C"
+    newBoard[63] = "D"
+
     this.state = {
       showHomeModal: false,
       //get gameID from database or generate new if no acceptable games exist
@@ -24,21 +30,14 @@ export default class Game extends React.Component {
       aliveCount: 0,
       //get playerTable from database given gameID
       activePlayer: 0,
+      chosenRPS: Array(3).fill(false),
       //number of seconds per turn
       turnCount:3,
       activePlayerPosition: 0,
       turnTime: 60,
       inventoryVisible: false,
-      board: Array(64).fill("")
-    }
-    let newBoard = this.state.board;
-    newBoard[0] = "A"
-    newBoard[7] = "B"
-    newBoard[56] = "C"
-    newBoard[63] = "D"
-    this.setState({
       board: newBoard
-    })
+    }
   }
 
 
@@ -106,6 +105,15 @@ export default class Game extends React.Component {
 
   goHome = () => {
     this.props.history.push("/");
+  }
+
+  setRPS = (num) => {
+    let arr = Array(3).fill(false);
+    arr[num] = true;
+    this.setState({
+      chosenRPS: arr
+    });
+    //move to playerTable[i+1]
   }
 
   movePossible(src, dest) {
@@ -189,11 +197,18 @@ export default class Game extends React.Component {
               {Board}
             </div>
           </div>
-
+          <Button.Group>
+            <Button toggle active={this.state.chosenRPS[0]} onClick={() => this.setRPS(0)}><Icon name='hand rock' /></Button>
+            <Button.Or />
+            <Button toggle active={this.state.chosenRPS[1]} onClick={() => this.setRPS(1)}><Icon name='hand paper' /></Button>
+            <Button.Or />
+            <Button toggle active={this.state.chosenRPS[2]} onClick={() => this.setRPS(2)}><Icon name='hand scissors' /></Button>
+          </Button.Group>
           <p>activePlayerPosition: {this.state.activePlayerPosition}</p>
           <p>activePlayer: {this.state.activePlayer}, {playerArray[this.state.activePlayer]}</p>
           <p>lastPosArray[{this.state.activePlayer}]: {lastPosArray[this.state.activePlayer]}</p>
           <p>Number Of Turns Remaining: {this.state.turnCount}</p>
+
           <Modal
                 open={this.state.showHomeModal}
                 onClose={this.closeModal}
