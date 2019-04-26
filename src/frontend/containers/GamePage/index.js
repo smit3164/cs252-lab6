@@ -51,7 +51,7 @@ export default class Game extends React.Component {
     firebase.database().ref("Rooms/"+this.state.gameID).on('value', snap => {
       console.log("sdlkfl;aksdj "+snap.child('isPlaying').val());
       this.setState({
-        isPlaying: snap.child('isPlaying').val()
+        isPlaying: snap.child('isPlaying').val(),
       });
       snap.child('players').forEach(snapChild => {
         currDatapl.push(snapChild.toJSON());
@@ -223,8 +223,13 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
 
     // firebase.database().ref().update();
     //Check Randy's use of this function to see how it's used
-
-    return (curr+1) % 4;
+    let temp = (curr+1) % 4
+    let pushData = {
+      activePlayer: temp
+    };
+    //move to playerTable[i+1]
+    firebase.database().ref('Rooms/' + this.state.gameID).update(pushData);
+    return temp;
   }
   movePossible(src, dest) {
 
