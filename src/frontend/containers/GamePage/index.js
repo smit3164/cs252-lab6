@@ -98,8 +98,12 @@ export default class Game extends React.Component {
     }
   }*/
 
-  sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  playerTurn = (uid) => {
+    for(let i in this.state.playerArray) {
+      if(uid == this.state.playerArray[i].uid) {
+        return (i == this.state.activePlayer) ? (true) : (false)
+      }
+    }
   }
 
   updateAliveCount = (death) => {
@@ -184,14 +188,16 @@ export default class Game extends React.Component {
     (optional) flash player the entire board
     make this player wait until their turn
     */
+
+    firebase.database().ref().update();
+    //Check Randy's use of this function to see how it's used
+
     return (curr+1) % 4;
   }
   movePossible(src, dest) {
 
     // (src%8!=0&&src%8!=7)
-    return (this.state.isPlaying) &&
-      (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) &&
-      (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
+    return (this.state.fbPlayerList.length == 4) && (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) && (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
       ((src + 1 === dest) && (src%8!=7 && dest%8!=0)) ||
       (src + 8 === dest) ||
       (src - 8 === dest))
