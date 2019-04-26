@@ -5,12 +5,16 @@ import { hasAccountToken } from '@/utils';
 import { Button, Modal, Icon } from 'semantic-ui-react';
 import GameCell from '../../components/GameCell/index.js';
 import GameBoard from '../../components/GameBoard/index.js';
+import * as firebase from 'firebase'
 
 import './styles.scss';
 
 //localStorage.getItem('user') for UIDs
 var playerArray = ["A", "B", "C", "D"];
 var lastPosArray = [0, 7, 56, 63];
+
+var fbPlayerList = [];
+
 
 export default class Game extends React.Component {
   constructor() {
@@ -36,12 +40,36 @@ export default class Game extends React.Component {
       activePlayerPosition: 0,
       turnTime: 60,
       inventoryVisible: false,
-      board: newBoard
+      board: newBoard,
+      /*fbPlayerListI*/data: []
     }
+    /*firebase.database().ref("Rooms/someRandomRoomUID/players").once('value', snap => {
+      snap.forEach(snapChild => {
+        this.state.fbPlayerList.push(snapChild.toJSON());
+      });
+      console.log('fbPlayerList: ', this.state.fbPlayerList);
+    });*/
   }
 
+  componentDidMount() {
+    let cs = console;
+    let self = this;
+    let currData = [];
 
-  updateTurnTime = (reset) => {
+    firebase.database().ref("Rooms/someRandomRoomUID/players").once('value', snap => {
+      snap.forEach(snapChild => {
+        currData.push(snapChild.toJSON());
+      });
+
+      this.setState( {
+        data: currData
+      });
+      cs.log('data', self.state.data);
+    });
+
+  }
+
+  /*updateTurnTime = (reset) => {
     if(reset) {
       this.setState({
         turnTime: 60
@@ -52,7 +80,7 @@ export default class Game extends React.Component {
         // Not sure if this works
       })
     }
-  }
+  }*/
   updateAliveCount = (death) => {
     if(death) {
       this.setState({
@@ -80,7 +108,7 @@ export default class Game extends React.Component {
   updateActivePlayer = () => {
     //move to playerTable[i+1]
   }
-  showInventory =() => {
+  /*showInventory =() => {
     this.setState({
       inventoryVisible: true
     })
@@ -90,7 +118,7 @@ export default class Game extends React.Component {
     this.setState({
       inventoryVisible: false
     })
-  }
+  }*/
 
   openModal = () => {
     this.setState({
@@ -117,8 +145,9 @@ export default class Game extends React.Component {
   }
 
   movePossible(src, dest) {
+
     // (src%8!=0&&src%8!=7)
-    return (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
+    return (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) && (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
       ((src + 1 === dest) && (src%8!=7 && dest%8!=0)) ||
       (src + 8 === dest) ||
       (src - 8 === dest))
@@ -188,25 +217,25 @@ export default class Game extends React.Component {
       <div className="gamePage">
         <div className="Content">
         <center>
-          <h2>Game</h2>
-          <Button id="homeButton" onClick={this.openModal}><Icon name='arrow left' />Back to Home Page</Button>
-          
+          <h1><b>Game</b></h1>
+          <Button size="big" id="homeButton" onClick={this.openModal}><Icon name='arrow left' />Back to Home Page</Button>
+
           <div className="container">
             <div className="board">
               {Board}
             </div>
           </div>
           <Button.Group>
-            <Button toggle active={this.state.chosenRPS[0]} onClick={() => this.setRPS(0)}><Icon name='hand rock' /></Button>
-            <Button.Or />
-            <Button toggle active={this.state.chosenRPS[1]} onClick={() => this.setRPS(1)}><Icon name='hand paper' /></Button>
-            <Button.Or />
-            <Button toggle active={this.state.chosenRPS[2]} onClick={() => this.setRPS(2)}><Icon name='hand scissors' /></Button>
+            <Button size="big" toggle active={this.state.chosenRPS[0]} onClick={() => this.setRPS(0)}><Icon name='hand rock' /></Button>
+            <Button.Or size="big" />
+            <Button size="big" toggle active={this.state.chosenRPS[1]} onClick={() => this.setRPS(1)}><Icon name='hand paper' /></Button>
+            <Button.Or size="big" />
+            <Button size="big" toggle active={this.state.chosenRPS[2]} onClick={() => this.setRPS(2)}><Icon name='hand scissors' /></Button>
           </Button.Group>
           <p>activePlayerPosition: {this.state.activePlayerPosition}</p>
           <p>activePlayer: {this.state.activePlayer}, {playerArray[this.state.activePlayer]}</p>
           <p>lastPosArray[{this.state.activePlayer}]: {lastPosArray[this.state.activePlayer]}</p>
-          <p>Number Of Turns Remaining: {this.state.turnCount}</p>
+          <p>Number Of Moves Remaining: {this.state.turnCount}</p>
 
           <Modal
                 open={this.state.showHomeModal}
@@ -235,6 +264,6 @@ export default class Game extends React.Component {
     );
   }
 };
-//<Button id="inventoryButton" onClick={this.showInventory}>Inventory</Button>
+
 //<GameBoard id="currentGame" activePlayerPosition={this.state.activePlayerPosition} />
 // legacy GameBoard component
