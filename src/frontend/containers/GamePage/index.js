@@ -10,7 +10,7 @@ import * as firebase from 'firebase'
 import './styles.scss';
 
 //localStorage.getItem('user') for UIDs
-var playerArray = ["A", "B", "C", "D"];
+var markerArray = ["A", "B", "C", "D"];
 var lastPosArray = [0, 7, 56, 63];
 
 
@@ -39,7 +39,8 @@ export default class Game extends React.Component {
       turnTime: 60,
       inventoryVisible: false,
       board: newBoard,
-      fbPlayerList: []
+      fbPlayerList: [],
+      playerArray: []
     }
   }
 
@@ -60,6 +61,14 @@ export default class Game extends React.Component {
       });
       //console.log(self.state.fbPlayerList[0].blockNum);
       ///console.log(self.state.fbPlayerList[0].isAlive);
+      let pa = this.state.playerArray;
+      for(let i in self.state.fbPlayerList) {
+        pa[i] = self.state.fbPlayerList[i]
+        console.log(pa[i].isAlive)
+      }
+      this.setState({
+        playerArray: pa
+      })
     });
 
   }
@@ -142,7 +151,7 @@ export default class Game extends React.Component {
   movePossible(src, dest) {
 
     // (src%8!=0&&src%8!=7)
-    return (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) && (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
+    return (this.state.fbPlayerList.length == 4) && (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) && (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
       ((src + 1 === dest) && (src%8!=7 && dest%8!=0)) ||
       (src + 8 === dest) ||
       (src - 8 === dest))
@@ -151,7 +160,8 @@ export default class Game extends React.Component {
   onClick(index) {
     console.log(index);
     //************************************************
-    console.log("test: ", this.state.fbPlayerList[0].blockNum)
+    //console.log("test: ", this.state.fbPlayerList[0].blockNum)
+    console.log("test: ", this.state.playerArray[0].blockNum)
     if(this.movePossible(lastPosArray[this.state.activePlayer], index)) {
       for(let i = 0; i < 4; i++) {
         if(index != lastPosArray[this.state.activePlayer] && index == lastPosArray[i]) {
@@ -160,7 +170,7 @@ export default class Game extends React.Component {
         }
       }
       let newBoard = this.state.board
-      newBoard[index] = playerArray[this.state.activePlayer];
+      newBoard[index] = markerArray[this.state.activePlayer];
       (lastPosArray[this.state.activePlayer] != null && lastPosArray[this.state.activePlayer] != index) ?
         (newBoard[lastPosArray[this.state.activePlayer]] = null) :
         ( console.log("garbage blah blah") )
@@ -230,7 +240,7 @@ export default class Game extends React.Component {
             <Button size="big" toggle active={this.state.chosenRPS[2]} onClick={() => this.setRPS(2)}><Icon name='hand scissors' /></Button>
           </Button.Group>
           <p>activePlayerPosition: {this.state.activePlayerPosition}</p>
-          <p>activePlayer: {this.state.activePlayer}, {playerArray[this.state.activePlayer]}</p>
+          <p>activePlayer: {this.state.activePlayer}, {markerArray[this.state.activePlayer]}</p>
           <p>lastPosArray[{this.state.activePlayer}]: {lastPosArray[this.state.activePlayer]}</p>
           <p>Number Of Moves Remaining: {this.state.turnCount}</p>
 
