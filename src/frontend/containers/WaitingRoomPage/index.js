@@ -57,32 +57,33 @@ render() {
             <h2>Rooms</h2>
             <Button id="homeButton" onClick={this.openModal}><Icon name='arrow left' />Back to Home Page</Button>
             <br /><br />
-            <RoomList />
-
-            <Modal
-                open={this.state.showHomeModal}
-                onClose={this.closeModal}
-                closeIcon
-              >
-                <Modal.Header>Leave Waiting Room</Modal.Header>
-                <Modal.Content>
-                  <p>Are you sure you want to leave the waiting room and go back to the home page?</p>
-                </Modal.Content>
-                <Modal.Actions>
-                  <Button color='green' onClick={this.goHome}>
-                    <Icon name='checkmark' /> Yes
-                </Button>
-                  <Button color='red' onClick={this.closeModal}>
-                    <Icon name='remove' /> No, do not leave
-                </Button>
-                </Modal.Actions>
-              </Modal>
+            <div className="table">
+              <RoomList />
+              <Modal
+                  open={this.state.showHomeModal}
+                  onClose={this.closeModal}
+                  closeIcon
+                >
+                  <Modal.Header>Leave Waiting Room</Modal.Header>
+                  <Modal.Content>
+                    <p>Are you sure you want to leave the waiting room and go back to the home page?</p>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button color='green' onClick={this.goHome}>
+                      <Icon name='checkmark' /> Yes
+                  </Button>
+                    <Button color='red' onClick={this.closeModal}>
+                      <Icon name='remove' /> No, do not leave
+                  </Button>
+                  </Modal.Actions>
+                </Modal>
+              </div>
           </center>
           <div className="Flex">
           </div>
         </div>
       </div>
     );
-  
+
 }
 };
