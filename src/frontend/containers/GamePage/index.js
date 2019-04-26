@@ -232,11 +232,14 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
     return temp;
   }
   movePossible(src, dest) {
-
     // (src%8!=0&&src%8!=7)
+<<<<<<< HEAD
     return (this.state.isPlaying) &&
       (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) &&
       (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
+=======
+    return (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
+>>>>>>> parent of afac132... Updated UI for Game.
       ((src + 1 === dest) && (src%8!=7 && dest%8!=0)) ||
       (src + 8 === dest) ||
       (src - 8 === dest))
@@ -341,20 +344,20 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
       <div className="gamePage">
         <div className="Content">
         <center>
-          <h1><b>Game</b></h1>
-          <Button size="big" id="homeButton" onClick={this.openModal}><Icon name='arrow left' />Back to Home Page</Button>
-
+          <h2>Game</h2>
+          <Button id="homeButton" onClick={this.openModal}><Icon name='arrow left' />Back to Home Page</Button>
+          
           <div className="container">
             <div className="board">
               {Board}
             </div>
           </div>
           <Button.Group>
-            <Button size="big" toggle active={this.state.chosenRPS[0]} onClick={() => this.setRPS(0)}><Icon name='hand rock' /></Button>
-            <Button.Or size="big" />
-            <Button size="big" toggle active={this.state.chosenRPS[1]} onClick={() => this.setRPS(1)}><Icon name='hand paper' /></Button>
-            <Button.Or size="big" />
-            <Button size="big" toggle active={this.state.chosenRPS[2]} onClick={() => this.setRPS(2)}><Icon name='hand scissors' /></Button>
+            <Button toggle active={this.state.chosenRPS[0]} onClick={() => this.setRPS(0)}><Icon name='hand rock' /></Button>
+            <Button.Or />
+            <Button toggle active={this.state.chosenRPS[1]} onClick={() => this.setRPS(1)}><Icon name='hand paper' /></Button>
+            <Button.Or />
+            <Button toggle active={this.state.chosenRPS[2]} onClick={() => this.setRPS(2)}><Icon name='hand scissors' /></Button>
           </Button.Group>
           <p>activePlayerPosition: {this.state.activePlayerPosition}</p>
           <p>activePlayer: {this.state.activePlayer}, {markerArray[this.state.activePlayer]}</p>
