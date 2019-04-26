@@ -17,6 +17,7 @@ var lastPosArray = [0, 7, 56, 63];
 export default class Game extends React.Component {
   constructor(props) {
     super(props);
+    let userid = localStorage.getItem("uid");
     let newBoard = Array(64).fill("");
     newBoard[0] = "A"
     newBoard[7] = "B"
@@ -32,6 +33,7 @@ export default class Game extends React.Component {
       playerTable: null,
       playerCount: 0,
       aliveCount: 0,
+      uid: userid,
       //get playerTable from database given gameID
       activePlayer: 0,
       chosenRPS: Array(3).fill(false),
@@ -74,7 +76,7 @@ export default class Game extends React.Component {
     });
 
     firebase.database().ref("Rooms/"+this.state.gameID).on('value', snap => {
-      snap.forEach(snapChile => {
+      snap.forEach(snapChild => {
         currdata.push(snapChild.toJSON());
       });
 
