@@ -124,6 +124,78 @@ logoutProcedure = () => {
   });
 }
 
+newRoomProcess = () => {
+  console.log('room name entered: ', this.state.newRoomName);
+  let uidRoom = Math.random().toString(36).substring(7);
+  console.log("random", uidRoom);
+  let roomLocation = 'Rooms/' + uidRoom;
+  let uidPlayer = localStorage.getItem('uid');
+
+  let playerLocation = roomLocation + '/players/' + uidPlayer;
+  let playersLocations = roomLocation + '/players'; 
+
+    let roomName = "single-player game";
+
+    console.log('uidPlayer: ', uidPlayer);
+
+
+
+    const postDataCount = {
+      playerCount: 1,
+      playerLimit: 1,
+      activePlayer: 0,
+      isPlaying: true,
+      nameOfRoom: roomName,
+      uid: uidRoom
+    }
+    // Create room
+    firebase.database().ref(roomLocation).set(postDataCount);
+
+    const postDataPlayer = {
+      uid: uidPlayer,
+      blockNum: 0,
+      isAlive: true,
+      isTurn: true,
+      kills: 0,
+      enterOrder: 0,
+      weaponType: -1
+    }
+
+    // Add player to the Players in Room
+    firebase.database().ref(playerLocation).set(postDataPlayer);
+    let i = 0;
+    const postPlayerInBlock = {
+      playerInBlock: ''
+    }
+
+
+    // Create the map
+    for (i = 0; i < 64; i++) {
+        let mapLocation = roomLocation + '/Map/block' + i;
+        firebase.database().ref(mapLocation).set(postPlayerInBlock);
+    }
+
+    // Update blockNum in map
+    firebase.database().ref(playersLocations).once('value', snap => {
+      snap.forEach(snapChild => {
+        let someUID = snapChild.child('uid').val();
+        let someBlockNum = roomLocation + '/Map/block' + snapChild.child('blockNum').val();
+        
+        const updateBlock = {
+          playerInBlock: someUID
+        }
+        firebase.database().ref(someBlockNum).update(updateBlock);
+
+
+
+      });
+    });
+
+    let url = '/sgame/' + uidRoom;
+    this.props.history.push(url);
+
+}
+
 render() {
   if (hasAccountToken()) {
     return (
@@ -131,7 +203,7 @@ render() {
         <div className="Content">
           <center>
             <h1><b>Sneaky Strikers</b></h1>
-            <Link to="/game/someRandomRoomUID"><Button size="big" id="startButton"><Icon name='game' />Start a game</Button></Link>
+            <Button size="big" id="startButton" onClick={this.newRoomProcess}><Icon name='game' />Start a single-player game</Button>
             <Link to="/rooms"><Button size="big" id="roomButton"><Icon name='group' />View Rooms</Button></Link>
             <Link to="/leaderboard"><Button size="big" id="leaderboardButton"><Icon name='chess king' />Leaderboard</Button></Link>
             <Button size="big" onClick={this.openModal}><Icon name='log out' />Log out</Button>
