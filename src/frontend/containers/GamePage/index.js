@@ -99,16 +99,23 @@ export default class Game extends React.Component {
     let newBoard = this.state.board
     console.log(index);
     newBoard[index] = this.state.activePlayer
-    let newPlayer = "x"
 
-    if(this.state.activePlayer == "x") {
-      let newPlayer = "B"
+    if(this.state.activePlayer == "A") {
+      this.setState({
+        activePlayer: "B"
+      })
     } else if(this.state.activePlayer == "B") {
-      let newPlayer = "C"
+      this.setState({
+        activePlayer: "C"
+      })
     } else if(this.state.activePlayer == "C") {
-      let newPlayer = "D"
+      this.setState({
+        activePlayer: "D"
+      })
     } else if(this.state.activePlayer == "D") {
-      let newPlayer = "x"
+      this.setState({
+        activePlayer: "A"
+      })
     } else {
       console.log("Invalid activePlayer value")
     }
@@ -116,7 +123,6 @@ export default class Game extends React.Component {
     this.setState({
       board: newBoard,
       activePlayerPosition: index,
-      activePlayer: newPlayer
     })
   }
 
