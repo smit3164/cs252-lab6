@@ -110,7 +110,7 @@ export default class RoomsList extends React.Component {
       if (playerCountInRoom + 1 >= playerLimit) {
         let i = 0;
         const postPlayerInBlock = {
-          playerinBlock: ''
+          playerInBlock: ''
         }
 
         const postUpdatePlayingBool = {
