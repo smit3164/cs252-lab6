@@ -27,7 +27,7 @@ export default class Game extends React.Component {
     this.state = {
       showHomeModal: false,
       //get gameID from database or generate new if no acceptable games exist
-      gameID: "someRandomRoomUID",
+      gameID: this.props.match.params.gameID,
       gameList: [],
       isPlaying: false,
       playerTable: null,
@@ -46,9 +46,7 @@ export default class Game extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      gameID: this.props.match.params.gameID
-    })
+
     let currDatapl = [];
     firebase.database().ref("Rooms/"+this.state.gameID).on('value', snap => {
       console.log("sdlkfl;aksdj "+snap.child('isPlaying').val());
@@ -258,6 +256,11 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
     if(this.state.playerArray[1] != null) {
       console.log("playerArray[1].isAlive: ", this.state.playerArray[1].isAlive)
     }*/
+    console.log(this.state.uid);
+    for(let i in this.state.fbPlayerList) {
+      console.log(i+": "+this.state.fbPlayerList[i].uid);
+    }
+    console.log("gID:"+this.state.gameID);
 
     if(!this.playerTurn(this.state.uid)) {
       console.log("Not your turn.");
