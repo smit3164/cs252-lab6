@@ -13,8 +13,6 @@ import './styles.scss';
 var playerArray = ["A", "B", "C", "D"];
 var lastPosArray = [0, 7, 56, 63];
 
-var fbPlayerList = [];
-
 
 export default class Game extends React.Component {
   constructor() {
@@ -41,18 +39,11 @@ export default class Game extends React.Component {
       turnTime: 60,
       inventoryVisible: false,
       board: newBoard,
-      /*fbPlayerListI*/data: []
+      fbPlayerList: []
     }
-    /*firebase.database().ref("Rooms/someRandomRoomUID/players").once('value', snap => {
-      snap.forEach(snapChild => {
-        this.state.fbPlayerList.push(snapChild.toJSON());
-      });
-      console.log('fbPlayerList: ', this.state.fbPlayerList);
-    });*/
   }
 
   componentDidMount() {
-    let cs = console;
     let self = this;
     let currData = [];
 
@@ -62,9 +53,10 @@ export default class Game extends React.Component {
       });
 
       this.setState( {
-        data: currData
+        fbPlayerList: currData
       });
-      cs.log('data', self.state.data);
+      //console.log(self.state.fbPlayerList[0].blockNum);
+      ///console.log(self.state.fbPlayerList[0].isAlive);
     });
 
   }
@@ -155,6 +147,8 @@ export default class Game extends React.Component {
 
   onClick(index) {
     console.log(index);
+    //************************************************
+    console.log("test: ", this.state.fbPlayerList[0].blockNum)
     if(this.movePossible(lastPosArray[this.state.activePlayer], index)) {
       for(let i = 0; i < 4; i++) {
         if(index != lastPosArray[this.state.activePlayer] && index == lastPosArray[i]) {
