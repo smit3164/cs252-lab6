@@ -25,6 +25,7 @@ export default class Game extends React.Component {
       //get playerTable from database given gameID
       activePlayer: 0,
       //number of seconds per turn
+      turnCount:3,
       activePlayerPosition: 0,
       turnTime: 60,
       inventoryVisible: false,
@@ -143,11 +144,12 @@ export default class Game extends React.Component {
       } else {
         console.log("Invalid activePlayer value")
       }
-
+      console.log("tc= "+tc);
       this.setState({
         board: newBoard,
         activePlayerPosition: index,
-        activePlayer: newActivePlayer
+        activePlayer: newActivePlayer,
+        turnCount: tc
       })
     } else {
       console.log("Not a legal move.")
