@@ -28,7 +28,7 @@ export default class Game extends React.Component {
       activePlayerPosition: 0,
       turnTime: 60,
       inventoryVisible: false,
-      board: Array(64).fill(null)
+      board: Array(64).fill("")
     }
     let newBoard = this.state.board;
     newBoard[0] = "A"
@@ -123,7 +123,26 @@ export default class Game extends React.Component {
         (newBoard[lastPosArray[this.state.activePlayer]] = null) :
         ( console.log("garbage blah blah") )
       lastPosArray[this.state.activePlayer] = index;
-      let newActivePlayer = (this.state.activePlayer+1) % 4;
+
+      let newActivePlayer = this.state.activePlayer;
+      let tc = 0;
+      if(this.state.turnCount == 3) {
+          //next move
+        tc = 2;
+      } else if(this.state.turnCount == 2) {
+        tc = 1;
+      } else if(this.state.turnCount == 1) {
+        let curr = this.state.activePlayer;
+        // let playa = handleChangePlayer(curr);
+        newActivePlayer = (this.state.activePlayer+1) % 4;
+        tc = 3;
+      } else if(this.state.turnCount == 0) {
+        console.log("not right turn num left");
+        newActivePlayer = 0;
+        tc = 3;
+      } else {
+        console.log("Invalid activePlayer value")
+      }
 
       this.setState({
         board: newBoard,
