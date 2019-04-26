@@ -164,7 +164,28 @@ export default class Game extends React.Component {
     });
     //move to playerTable[i+1]
   }
-
+  fightOpponent(p1w, p2w){
+    if((p1w == 2 && p2w == 1) || (p1w == 3 && p2w == 2) || (p1w == 1 && p2w == 3)){
+      //p1 won
+      return 1;
+    }
+    if((p1w == 1 && p2w == 2) || (p1w == 2 && p2w == 3) || (p1w == 3 && p2w == 1)){
+      //p2 won
+      return 2;
+    }
+    if((p1w == 1 && p2w == 1) || (p1w == 2 && p2w == 2) || (p1w == 3 && p2w == 3)){
+      //both die
+      return 3;
+    }
+  }
+  handleChangePlayer(curr){
+    /*
+    send to fb change active players
+    (optional) flash player the entire board
+    make this player wait until their turn
+    */
+    return (curr+1) % 4;
+  }
   movePossible(src, dest) {
 
     // (src%8!=0&&src%8!=7)
@@ -205,8 +226,8 @@ export default class Game extends React.Component {
         tc = 1;
       } else if(this.state.turnCount == 1) {
         let curr = this.state.activePlayer;
-        // let playa = handleChangePlayer(curr);
-        newActivePlayer = (this.state.activePlayer+1) % 4;
+        // let playa
+        newActivePlayer = handleChangePlayer(curr);
         tc = 3;
       } else if(this.state.turnCount == 0) {
         console.log("not right turn num left");
