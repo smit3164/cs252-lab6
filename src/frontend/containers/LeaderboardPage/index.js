@@ -6,7 +6,6 @@ import * as firebase from 'firebase';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 
-
 import './styles.scss';
 
 
