@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link, Redirect } from "react-router-dom";
-import { Button, Modal, Icon } from 'semantic-ui-react';
+import { Button, Modal, Icon, Form } from 'semantic-ui-react';
 import { hasAccountToken } from '@/utils';
 import './styles.scss';
 import * as firebase from 'firebase';
@@ -26,7 +26,9 @@ export default class RoomsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      newRoomName: '',
       showHomeModal: false,
+      showRoomModal: false,
       data: []
     }
   }
@@ -35,14 +37,22 @@ export default class RoomsList extends React.Component {
     this.props.history.push("/");
   }
 
-  openModal = () => {
+  openHomeModal = () => {
     this.setState({
       showHomeModal: true
     })
   }
+
+  openRoomModal = () => {
+    this.setState({
+      showRoomModal: true
+    })
+  }
   closeModal = () => {
     this.setState({
-      showHomeModal: false
+      newRoomName: '',
+      showHomeModal: false,
+      showRoomModal: false
     })
   }
   componentDidMount() {
@@ -50,7 +60,10 @@ export default class RoomsList extends React.Component {
     update.on('value', snap => {
       let currData = [];
       snap.forEach(snapChild => {
-        currData.push(snapChild.toJSON());
+        if (!(snapChild.child('isPlaying').val() === 'true' || snapChild.child('isPlaying').val() == true)) {
+          currData.push(snapChild.toJSON());
+
+        }
       });
 
       this.setState({
@@ -150,6 +163,52 @@ export default class RoomsList extends React.Component {
     }
 
   }
+
+  newRoomProcess = () => {
+    console.log('room name entered: ', this.state.newRoomName);
+    let uidRoom = Math.random().toString(36).substring(7);
+    console.log("random", uidRoom);
+
+    let roomName = this.state.newRoomName;
+      let roomLocation = '/Rooms/' + uidRoom;
+      let uidPlayer = localStorage.getItem('uid');
+      let playerLocation = roomLocation + '/players/' + uidPlayer;
+
+      console.log('uidPlayer: ', uidPlayer);
+
+
+
+      const postDataCount = {
+        playerCount: 1,
+        playerLimit: 4,
+        isPlaying: false,
+        nameOfRoom: roomName,
+        uid: uidRoom
+      }
+      // Create room
+      firebase.database().ref(roomLocation).set(postDataCount);
+
+      const postDataPlayer = {
+        uid: uidPlayer,
+        blockNum: 0,
+        isAlive: true,
+        isTurn: true,
+        kills: 0,
+        enterOrder: 0
+      }
+
+      // Add player to the Players in Room
+      firebase.database().ref(playerLocation).set(postDataPlayer);
+      
+      this.closeModal();
+
+      let url = '/game/' + uidRoom;
+      this.props.history.push(url);
+
+  }
+
+handleChange = (e, { name, value }) => this.setState({ [name]: value})
+
 render() {
 
     if (!hasAccountToken()) {
@@ -157,6 +216,8 @@ render() {
           <Redirect to="/" />
         );
       }
+
+      const { newRoomName } = this.state;
 
       const columns = [
         {
@@ -200,7 +261,8 @@ render() {
         <div className="Content">
           <center>
             <h2>Rooms</h2>
-            <Button id="homeButton" onClick={this.openModal}><Icon name='arrow left' />Back to Home Page</Button>
+            <Button id="homeButton" onClick={this.openHomeModal}><Icon name='arrow left' />Back to Home Page</Button>
+            <Button id="createButton" onClick={this.openRoomModal}><Icon name='arrow left' />Create New Room</Button>
             <br /><br />
             <div className="table">
               
@@ -229,6 +291,29 @@ render() {
                   </Button>
                     <Button color='red' onClick={this.closeModal}>
                       <Icon name='remove' /> No, do not leave
+                  </Button>
+                  </Modal.Actions>
+                </Modal>
+
+                <Modal
+                  open={this.state.showRoomModal}
+                  onClose={this.closeModal}
+                  closeIcon
+                >
+                  <Modal.Header>Create New Room</Modal.Header>
+                  <Modal.Content>
+                    <Form >
+                      <Form.Input inline label='Name of New Room:'
+                       placeholder='New Room Name' name='newRoomName' value={newRoomName}
+                       onChange={this.handleChange}/>
+                    </Form>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button color='green' onClick={this.newRoomProcess}>
+                      <Icon name='checkmark' /> Create New Room
+                  </Button>
+                    <Button color='red' onClick={this.closeModal}>
+                      <Icon name='remove' /> Cancel
                   </Button>
                   </Modal.Actions>
                 </Modal>
