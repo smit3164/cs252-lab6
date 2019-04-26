@@ -13,12 +13,10 @@ import './styles.scss';
 var playerArray = ["A", "B", "C", "D"];
 var lastPosArray = [0, 7, 56, 63];
 
-var fbPlayerList = [];
-
 
 export default class Game extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     let newBoard = Array(64).fill("");
     newBoard[0] = "A"
     newBoard[7] = "B"
@@ -28,7 +26,7 @@ export default class Game extends React.Component {
     this.state = {
       showHomeModal: false,
       //get gameID from database or generate new if no acceptable games exist
-      gameID: 12345,
+      gameID: "someRandomRoomUID",
       playerTable: null,
       playerCount: 0,
       aliveCount: 0,
@@ -41,30 +39,27 @@ export default class Game extends React.Component {
       turnTime: 60,
       inventoryVisible: false,
       board: newBoard,
-      /*fbPlayerListI*/data: []
+      fbPlayerList: []
     }
-    /*firebase.database().ref("Rooms/someRandomRoomUID/players").once('value', snap => {
-      snap.forEach(snapChild => {
-        this.state.fbPlayerList.push(snapChild.toJSON());
-      });
-      console.log('fbPlayerList: ', this.state.fbPlayerList);
-    });*/
   }
 
   componentDidMount() {
-    let cs = console;
+    this.setState({
+      gameID: this.props.match.params.gameID
+    })
     let self = this;
     let currData = [];
 
-    firebase.database().ref("Rooms/someRandomRoomUID/players").once('value', snap => {
+    firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', snap => {
       snap.forEach(snapChild => {
         currData.push(snapChild.toJSON());
       });
 
       this.setState( {
-        data: currData
+        fbPlayerList: currData
       });
-      cs.log('data', self.state.data);
+      //console.log(self.state.fbPlayerList[0].blockNum);
+      ///console.log(self.state.fbPlayerList[0].isAlive);
     });
 
   }
@@ -155,6 +150,8 @@ export default class Game extends React.Component {
 
   onClick(index) {
     console.log(index);
+    //************************************************
+    console.log("test: ", this.state.fbPlayerList[0].blockNum)
     if(this.movePossible(lastPosArray[this.state.activePlayer], index)) {
       for(let i = 0; i < 4; i++) {
         if(index != lastPosArray[this.state.activePlayer] && index == lastPosArray[i]) {

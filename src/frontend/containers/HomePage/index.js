@@ -128,7 +128,7 @@ render() {
         <div className="Content">
           <center>
             <h1><b>Sneaky Strikers</b></h1>
-            <Link to="/game"><Button size="big" id="startButton"><Icon name='game' />Start a game</Button></Link>
+            <Link to="/game/someRandomRoomUID"><Button size="big" id="startButton"><Icon name='game' />Start a game</Button></Link>
             <Link to="/rooms"><Button size="big" id="roomButton"><Icon name='group' />View Rooms</Button></Link>
             <Link to="/leaderboard"><Button size="big" id="leaderboardButton"><Icon name='chess king' />Leaderboard</Button></Link>
             <Button size="big" onClick={this.openModal}><Icon name='log out' />Log out</Button>
