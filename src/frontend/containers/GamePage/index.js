@@ -188,7 +188,11 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
     this.setState({
       chosenRPS: arr
     });
+    let pushData = {
+      weaponType: num
+    };
     //move to playerTable[i+1]
+    firebase.database().ref('Rooms/' + this.state.gameID + '/players/' + this.state.uid).update(pushData);
   }
   fightOpponent(p1w, p2w){
     if((p1w == 2 && p2w == 1) || (p1w == 3 && p2w == 2) || (p1w == 1 && p2w == 3)){
@@ -211,7 +215,7 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
     make this player wait until their turn
     */
 
-    firebase.database().ref().update();
+    // firebase.database().ref().update();
     //Check Randy's use of this function to see how it's used
 
     return (curr+1) % 4;
@@ -219,7 +223,9 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
   movePossible(src, dest) {
 
     // (src%8!=0&&src%8!=7)
-    return (this.state.fbPlayerList.length == 4) && (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) && (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
+    return (this.state.isPlaying) &&
+      (this.state.chosenRPS[0]||this.state.chosenRPS[1]||this.state.chosenRPS[2]) &&
+      (((src - 1 === dest) && (src%8!=0 && dest%8!=7)) ||
       ((src + 1 === dest) && (src%8!=7 && dest%8!=0)) ||
       (src + 8 === dest) ||
       (src - 8 === dest))
@@ -247,8 +253,13 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
     if(this.movePossible(lastPosArray[this.state.activePlayer], index)) {
       for(let i = 0; i < 4; i++) {
         if(index != lastPosArray[this.state.activePlayer] && index == lastPosArray[i]) {
-          console.log("Fight Clubbbbb")
-          return
+          if(index != lastPosArray[this.state.activePlayer]) {
+            //conflict
+            console.log("Stop hitting yourself");
+          }
+          console.log("Fight Clubbbbb");
+          return;
+
         }
       }
       let newBoard = this.state.board
@@ -268,7 +279,7 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
       } else if(this.state.turnCount == 1) {
         let curr = this.state.activePlayer;
         // let playa
-        newActivePlayer = handleChangePlayer(curr);
+        newActivePlayer = this.handleChangePlayer(curr);
         tc = 3;
       } else if(this.state.turnCount == 0) {
         console.log("not right turn num left");
