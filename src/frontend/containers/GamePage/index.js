@@ -24,6 +24,7 @@ export default class Game extends React.Component {
       //number of seconds per turn
       turnTime: 60,
       inventoryVisible: false,
+      board: Array(9).fill("Yee")
     }
   }
 
@@ -101,6 +102,8 @@ export default class Game extends React.Component {
       );
     }
 
+    const Board = this.state.board.map(box => <div className="box">{box}</div>)
+
     return (
       <div class="gamePage">
         <div class="Content">
@@ -109,6 +112,12 @@ export default class Game extends React.Component {
           <Button id="homeButton" onClick={this.openModal}>Back to Home Page</Button>
           <GameBoard id="currentGame" activePlayerPosition={this.state.activePlayerPosition} />
           <Button id="inventoryButton" onClick={this.showInventory}>Inventory</Button>
+
+          <div className="container">
+            <div className="board">
+              {Board}
+            </div>
+          </div>
 
           <Modal
                 open={this.state.showHomeModal}
