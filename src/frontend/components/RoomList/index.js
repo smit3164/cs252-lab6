@@ -3,6 +3,8 @@ import { Button, Modal, Icon } from 'semantic-ui-react';
 import ReactTable from 'react-table'
 import * as firebase from 'firebase';
 import 'react-table/react-table.css'
+import {Link, Redirect} from 'react-router-dom';
+
 
 export default class RoomList extends React.Component {
   constructor(props) {
@@ -12,7 +14,7 @@ export default class RoomList extends React.Component {
       data: []
     };
   }
-  
+
   componentDidMount() {
     var update = firebase.database().ref("Rooms");
     update.on('value', snap => {
@@ -20,8 +22,8 @@ export default class RoomList extends React.Component {
       snap.forEach(snapChild => {
         currData.push(snapChild.toJSON());
       });
-      
-      this.setState( {
+
+      this.setState({
         data: currData
       });
       console.log('data', this.state.data);
@@ -30,6 +32,16 @@ export default class RoomList extends React.Component {
   }
 
   handleJoinRoomButton(row) {
+    console.log('row: ', row);
+    console.log('room uid: ', row.original.uid);
+
+    if (row.original.playerCount < row.original.playerLimit) {
+      let url = '/game/' + row.original.uid;
+
+      return(
+        <Redirect to={url}/>
+      );
+    }
 
   }
 
@@ -37,52 +49,52 @@ export default class RoomList extends React.Component {
     //this.update.off();
   }
 
-    render() {
-      const columns = [
-        {
-          Header: "Name of Room",
-          accessor: "nameOfRoom"
-        },
-        {
-          Header: "Players in Room",
-          accessor: "playerCount"
-        },
-        {
-          Header: "Max Players",
-          accessor: "playerLimit"
-        },
-        {
-          Header: "",
-          id: "joinRoom",
-          aggregate: vals => {
+  render() {
+    const columns = [
+      {
+        Header: "Name of Room",
+        accessor: "nameOfRoom"
+      },
+      {
+        Header: "Players in Room",
+        accessor: "playerCount"
+      },
+      {
+        Header: "Max Players",
+        accessor: "playerLimit"
+      },
+      {
+        Header: "",
+        id: "joinRoom",
+        aggregate: vals => {
 
-          },
-          Cell: row => {
-            if (!row.original) {
-                return (
-                  <Button positive onClick={() => this.handleJoinRoomButton(row)}>Join Room</Button>
-                );
-            }
-            return(
-              <label />
-            );
-          },
-          sortable: false,
+        },
+        Cell: row => {
+
+          return (
+            <div>
+              <Button onClick={() => this.handleJoinRoomButton(row)}>Join Room</Button>
+            </div>
+          );
+
+
+        },
+        sortable: false,
         filterable: false,
         resizable: false,
-        width: 120
-        }
-      ]
-        return (
-          <ReactTable
-          columns={columns}
-          data={this.state.data}
-          filterable
-          defaultPageSize={10}
-          noDataText='There are no rooms right now'
-        >
+        width: 200
+      }
+    ]
+    return (
+      <ReactTable
+        columns={columns}
+        data={this.state.data}
+        filterable
+        defaultPageSize={10}
+        noDataText='There are no rooms right now'
+      >
 
-        </ReactTable>
-        );
-    }
+      </ReactTable>
+    );
+  }
 }

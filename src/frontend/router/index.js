@@ -5,14 +5,14 @@ import { Switch, Route, BrowserRouter, Redirect} from 'react-router-dom'
 import Home from '@/containers/HomePage'
 import Game from '@/containers/GamePage'
 import Leaderboard from "@/containers/LeaderboardPage";
-import WaitingRoom from "@/containers/WaitingRoomPage";
+import RoomsList from "@/containers/RoomsListPage";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/rooms" component={WaitingRoom} />
+        <Route path="/rooms" component={RoomsList} />
         <Route path="/game/:gameID?" component={Game} />
         <Route path="/leaderboard" component={Leaderboard} />
         <Route path="*" render={() => (<Redirect to="/"/>)} />
