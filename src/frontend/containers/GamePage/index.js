@@ -53,38 +53,45 @@ export default class Game extends React.Component {
       gameID: this.props.match.params.gameID
     })
     let self = this;
-    let currData = [];
-
-    firebase.database().ref("Rooms/"+this.state.gameID+"/players").on('value', snap => {
-      snap.forEach(snapChild => {
-        currData.push(snapChild.toJSON());
-      });
-
-      this.setState( {
-        fbPlayerList: currData
-      });
-      //console.log(self.state.fbPlayerList[0].blockNum);
-      ///console.log(self.state.fbPlayerList[0].isAlive);
-      let pa = this.state.playerArray;
-      for(let i in self.state.fbPlayerList) {
-        pa[i] = self.state.fbPlayerList[i]
-        console.log(pa[i].isAlive)
-      }
-      this.setState({
-        playerArray: pa
-      })
-    });
-
+    let currDatapl = [];
+    let pa = [];
     firebase.database().ref("Rooms/"+this.state.gameID).on('value', snap => {
       snap.forEach(snapChild => {
-        currdata.push(snapChild.toJSON());
+        currDatapl.push(snapChild.toJSON());
       });
 
+      //prevent remount with setState
+      //TODO
+      //console.log(self.state.fbPlayerList[0].blockNum);
+      ///console.log(self.state.fbPlayerList[0].isAlive);
+
+      pa = this.state.playerArray;
+      for(let i in self.state.fbPlayerList) {
+        pa[i] = self.state.fbPlayerList[i];
+        console.log(pa[i].isAlive);
+      }
+      // this.setState({
+      //
+      // })
+    });
+
+//     let currDatad = [];
+//     console.log("hahahhah "+this.state.gameID);
+// console.log(currDatapl);
+//     firebase.database().ref("Rooms/"+this.state.gameID).on('value', snap => {
+//       snap.forEach(snapChild => {
+//         currdatad.push(snapChild.toJSON());
+//       });
+
+      console.log("helo");
+      console.log(currDatapl);
+
       this.setState({
-        isPlaying: currData[0].isPlaying,
-        playerCount: currData[0].playerCount
-      })
-    })
+        playerArray: pa,
+        fbPlayerList: currDatapl[4],
+        isPlaying: currDatapl[0],
+        playerCount: currDatapl[2]
+      });
   }
 
   /*updateTurnTime = (reset) => {
