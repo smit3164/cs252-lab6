@@ -72,7 +72,9 @@ export default class Home extends React.Component {
       // The signed-in user info.
       var user = result.user;
       localStorage.setItem('user', user);
+
       let uid = user.uid;
+      localStorage.setItem('uid', uid);
       let wins = 0;
       let kills = 0;
       let email = user.email;
