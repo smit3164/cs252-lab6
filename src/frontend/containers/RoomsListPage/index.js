@@ -120,7 +120,7 @@ export default class RoomsList extends React.Component {
         // Create the map
         for (i = 0; i < 64; i++) {
             let blockName = 'block' + i;
-            let mapLocation = roomLocation + '/Map' + blockName;
+            let mapLocation = roomLocation + '/Map/' + blockName;
             firebase.database().ref(mapLocation).set(postPlayerInBlock);
         }
 
