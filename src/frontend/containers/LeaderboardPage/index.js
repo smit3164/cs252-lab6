@@ -61,6 +61,8 @@ export default class Leaderboard extends React.Component {
           
           <Link to="/"><Button id="homeButton"><Icon name='arrow left' />Back to Home Page</Button></Link>
           <br /><br />
+          <div className="table">
+
           <ReactTable
             columns={columns}
             data={this.state.data}
@@ -70,6 +72,7 @@ export default class Leaderboard extends React.Component {
           >
 
           </ReactTable>
+          </div>
         </center>
           <div className="Flex">
           </div>
