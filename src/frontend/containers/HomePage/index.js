@@ -118,6 +118,7 @@ logoutProcedure = () => {
   firebase.auth().signOut();
   localStorage.removeItem('accountToken');
   localStorage.removeItem('user');
+  localStorage.removeItem('uid');
   this.setState({
     showLogoutModal: false
   });
