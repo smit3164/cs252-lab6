@@ -152,7 +152,7 @@ export default class Game extends React.Component {
              console.log("you won!");
              //randycode
              let uidPlayer = localStorage.getItem('uid');
-             let firebaseLocation = 'PlayerInfo/listOfPlayers/' + uidPlayer
+             let firebaseLocation = 'PlayerInfo/listOfPlayers/' + uidPlayer;
              firebase.database().ref(firebaseLocation).once('value', snap => {
                let killAmount = snap.child('kills').val() + 3;
                let winAmount = snap.child('wins').val() + 1;
@@ -163,7 +163,7 @@ export default class Game extends React.Component {
                }
 
                firebase.database().ref(firebaseLocation).update(postData);
-             })
+             });
              
            }
            this.setState({
