@@ -118,6 +118,12 @@ export default class Game extends React.Component {
   onClick(index) {
     console.log(index);
     if(this.movePossible(lastPosArray[this.state.activePlayer], index)) {
+      for(let i = 0; i < 4; i++) {
+        if(index != lastPosArray[this.state.activePlayer] && index == lastPosArray[i]) {
+          console.log("Fight Clubbbbb")
+          return
+        }
+      }
       let newBoard = this.state.board
       newBoard[index] = playerArray[this.state.activePlayer];
       (lastPosArray[this.state.activePlayer] != null && lastPosArray[this.state.activePlayer] != index) ?
