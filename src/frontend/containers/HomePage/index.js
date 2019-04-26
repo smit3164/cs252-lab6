@@ -84,6 +84,7 @@ export default class Home extends React.Component {
         cs.log('hasChild: ', snap.hasChild(uid));
         if (!snap.hasChild(uid)) {
           fb.database().ref(location).set({
+            uid,
             name,
             email,
             wins,
@@ -128,6 +129,7 @@ render() {
           <center>
             <h1><b>Sneaky Strikers</b></h1>
             <Link to="/game"><Button size="big" id="startButton"><Icon name='game' />Start a game</Button></Link>
+            <Link to="/rooms"><Button id="roomButton"><Icon name='group' />View Rooms</Button></Link>
             <Link to="/leaderboard"><Button size="big" id="leaderboardButton"><Icon name='chess king' />Leaderboard</Button></Link>
             <Button size="big" onClick={this.openModal}><Icon name='log out' />Log out</Button>
 
