@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+.gamePage {
+  display:flex;
+  .Content {
+    flex: 1;
+    margin-top: 24px;
+    margin-left: 24px;
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+  .container{
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+
+.box {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+  display: inline-block;
+  line-height: 50px;
+  background-color: #FFFFFF;
+}
+
+.box:hover {
+  background-color: #dddddd;
+}
+/*.box1 {
+  width: 80px;
+  height: 80px;
+  border: 1px solid black;
+  display: inline-block;
+  line-height: 80px;
+  background-color: #7FFF00;
+}*/
+
+.board {
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: 400px;
+}
