@@ -31,8 +31,6 @@ export default class Game extends React.Component {
       gameList: [],
       isPlaying: false,
       playerTable: null,
-      playerCount: 0,
-      aliveCount: 0,
       uid: userid,
       //get playerTable from database given gameID
       activePlayer: 0,
@@ -43,7 +41,6 @@ export default class Game extends React.Component {
       //turnTime: 60,
       inventoryVisible: false,
       board: newBoard,
-      fbPlayerList: [],
       playerArray: []
     }
   }
@@ -52,28 +49,37 @@ export default class Game extends React.Component {
     this.setState({
       gameID: this.props.match.params.gameID
     })
-    let self = this;
     let currDatapl = [];
-    let pa = [];
     firebase.database().ref("Rooms/"+this.state.gameID).on('value', snap => {
-      snap.forEach(snapChild => {
+      console.log("sdlkfl;aksdj "+snap.child('isPlaying').val());
+      this.setState({
+        isPlaying: snap.child('isPlaying').val()
+      });
+      snap.child('players').forEach(snapChild => {
         currDatapl.push(snapChild.toJSON());
+      })
+    });
+//
+
+  let currData = [];
+firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', snap => {
+      snap.forEach(snapChild => {
+        currData.push(snapChild.toJSON());
       });
 
-      //prevent remount with setState
-      //TODO
-      //console.log(self.state.fbPlayerList[0].blockNum);
-      ///console.log(self.state.fbPlayerList[0].isAlive);
-
-      pa = this.state.playerArray;
-      for(let i in self.state.fbPlayerList) {
-        pa[i] = self.state.fbPlayerList[i];
-        console.log(pa[i].isAlive);
-      }
-      // this.setState({
-      //
-      // })
+      this.setState( {
+        data: currData,
+        fbPlayerList: currData
+      });
+      console.log('data', this.state.data);
+      console.log(typeof this.state.fbPlayerList);
+      console.log(this.state.fbPlayerList[1].blockNum);
+      console.log(this.state.fbPlayerList[2].isAlive);
+      console.log(this.state.fbPlayerList[0].uid);
     });
+
+
+//
 
 //     let currDatad = [];
 //     console.log("hahahhah "+this.state.gameID);
@@ -84,13 +90,20 @@ export default class Game extends React.Component {
 //       });
 
       console.log("helo");
+      //console.log(currDatapl[0]);
+      //console.log(currDatapl["isAlive"]);
+      // console.log(currDatapl.isAlive());
+      //console.log(currDatapl["0"]);
+      // console.log(currDatapl(0));
+      //console.log(currDatapl.blockNum);
+      //console.log(currDatapl.keys());
+      //console.log(currDatapl.values());
+      //console.log(Object.values(currDatapl));
       console.log(currDatapl);
+      //console.log(currDatapl[1].blockNum);
 
       this.setState({
-        playerArray: pa,
-        fbPlayerList: currDatapl[4],
-        isPlaying: currDatapl[0],
-        playerCount: currDatapl[2]
+        playerArray: currDatapl,
       });
   }
 
@@ -214,6 +227,17 @@ export default class Game extends React.Component {
 
   onClick(index) {
     console.log(index);
+    console.log("playerArray: "+this.state.playerArray);
+    console.log("gameList: "+this.state.gameList);
+    console.log("gameID: " +this.state.gameID);
+    console.log("isPlaying: "+this.state.isPlaying);
+    console.log("uid: "+this.state.uid);
+    console.log("activePlayer: "+this.state.activePlayer);
+    console.log("chosenRPS: "+this.state.chosenRPS);
+    console.log("turnCount: "+this.state.turnCount);
+    console.log("activePlayerPosition: "+this.state.activePlayerPosition);
+    console.log("playerArray: "+this.state.playerArray);
+    console.log("fbPlayerList: "+this.state.fbPlayerList)
     //************************************************
     //console.log("test: ", this.state.fbPlayerList[0].blockNum)
     console.log("playerArray[0].isAlive: ", this.state.playerArray[0].isAlive)
