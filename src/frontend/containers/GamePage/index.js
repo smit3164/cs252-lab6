@@ -20,8 +20,9 @@ export default class Game extends React.Component {
       playerCount: 0,
       aliveCount: 0,
       //get playerTable from database given gameID
-      activePlayer: /*playerTable[0]*/null,
+      activePlayer: /*playerTable[0]*/"A",
       //number of seconds per turn
+      activePlayerPosition: 0,
       turnTime: 60,
       inventoryVisible: false,
       board: Array(9).fill("Yee")
@@ -94,6 +95,30 @@ export default class Game extends React.Component {
     this.props.history.push("/");
   }
 
+  onClick(index) {
+    let newBoard = this.state.board
+    console.log(index);
+    newBoard[index] = this.state.activePlayer
+    let newPlayer = "x"
+
+    if(this.state.activePlayer == "x") {
+      let newPlayer = "B"
+    } else if(this.state.activePlayer == "B") {
+      let newPlayer = "C"
+    } else if(this.state.activePlayer == "C") {
+      let newPlayer = "D"
+    } else if(this.state.activePlayer == "D") {
+      let newPlayer = "x"
+    } else {
+      console.log("Invalid activePlayer value")
+    }
+
+    this.setState({
+      board: newBoard,
+      activePlayerPosition: index,
+      activePlayer: newPlayer
+    })
+  }
 
   render() {
     if (!hasAccountToken()) {
@@ -102,7 +127,11 @@ export default class Game extends React.Component {
       );
     }
 
-    const Board = this.state.board.map(box => <div className="box">{box}</div>)
+    const Board = this.state.board.map(
+      (box, index) => <div className="box"
+      onClick={() => this.onClick(index)} key={index}>
+      {box}
+      </div>)
 
     return (
       <div class="gamePage">
@@ -118,6 +147,9 @@ export default class Game extends React.Component {
               {Board}
             </div>
           </div>
+
+          <p>activePlayerPosition: {this.state.activePlayerPosition}</p>
+          <p>activePlayer: {this.state.activePlayer}</p>
 
           <Modal
                 open={this.state.showHomeModal}
