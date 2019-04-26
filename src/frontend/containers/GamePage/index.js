@@ -128,7 +128,15 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
     }
   }
 
-  updateAliveCount = (death) => {
+  getPlayerMarker = (uid) => {
+    for(let i in this.state.fbPlayerList) {
+      if(uid == this.state.fbPlayerList[i].uid) {
+        return markerArray[this.state.fbPlayerList[i].enterOrder]
+      }
+    }
+  }
+
+  /*updateAliveCount = (death) => {
     if(death) {
       this.setState({
         aliveCount: this.aliveCount-1
@@ -139,7 +147,7 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
       })
     }
   }
-  updatePlayers = (joined/*, playerID somehow*/) => {
+/*updatePlayers = (joined/*, playerID somehow) => {
     if(joined) {
       this.setState({
         playerCount: this.playerCount+1
@@ -155,7 +163,7 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
   updateActivePlayer = () => {
     //move to playerTable[i+1]
   }
-  /*showInventory =() => {
+  showInventory =() => {
     this.setState({
       inventoryVisible: true
     })
@@ -232,7 +240,7 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
     }
 
   onClick(index) {
-    console.log(index);
+    /*console.log(index);
     console.log("playerArray: "+this.state.playerArray);
     console.log("gameList: "+this.state.gameList);
     console.log("gameID: " +this.state.gameID);
@@ -243,14 +251,17 @@ firebase.database().ref("Rooms/"+this.state.gameID+"/players").once('value', sna
     console.log("turnCount: "+this.state.turnCount);
     console.log("activePlayerPosition: "+this.state.activePlayerPosition);
     console.log("playerArray: "+this.state.playerArray);
-    console.log("fbPlayerList: "+this.state.fbPlayerList)
+    console.log("fbPlayerList: "+this.state.fbPlayerList)*/
     //************************************************
     //console.log("test: ", this.state.fbPlayerList[0].blockNum)
-    console.log("playerArray[0].isAlive: ", this.state.playerArray[0].isAlive)
+    /*console.log("playerArray[0].isAlive: ", this.state.playerArray[0].isAlive)
     if(this.state.playerArray[1] != null) {
       console.log("playerArray[1].isAlive: ", this.state.playerArray[1].isAlive)
-    }
-    if(this.movePossible(lastPosArray[this.state.activePlayer], index)) {
+    }*/
+
+    if(!this.playerTurn(this.state.uid)) {
+      console.log("Not your turn.");
+    } else if(this.movePossible(lastPosArray[this.state.activePlayer], index)) {
       for(let i = 0; i < 4; i++) {
         if(index != lastPosArray[this.state.activePlayer] && index == lastPosArray[i]) {
           if(index != lastPosArray[this.state.activePlayer]) {
