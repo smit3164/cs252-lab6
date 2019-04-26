@@ -126,10 +126,10 @@ render() {
       <div className="homePage">
         <div className="Content">
           <center>
-            <h2>Sneaky Strikers</h2>
-            <Link to="/game"><Button id="startButton"><Icon name='game' />Start a game</Button></Link>
-            <Link to="/leaderboard"><Button id="leaderboardButton"><Icon name='chess king' />Leaderboard</Button></Link>
-            <Button onClick={this.openModal}><Icon name='log out' />Log out</Button>
+            <h1><b>Sneaky Strikers</b></h1>
+            <Link to="/game"><Button size="big" id="startButton"><Icon name='game' />Start a game</Button></Link>
+            <Link to="/leaderboard"><Button size="big" id="leaderboardButton"><Icon name='chess king' />Leaderboard</Button></Link>
+            <Button size="big" onClick={this.openModal}><Icon name='log out' />Log out</Button>
 
             <Modal
               open={this.state.showLogoutModal}
